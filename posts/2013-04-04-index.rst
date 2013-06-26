@@ -1,0 +1,606 @@
+.. TFG documentation master file, created by
+	sphinx-quickstart on Sat Oct 27 07:45:15 2012.
+	You can adapt this file completely to your liking, but it should at least
+	contain the root `toctree` directive.
+
+
+
+
+Redución de ruido en imágenes mediante fusión HDR en el dominio de Bayer
+========================================================================
+
+.. toctree::
+	:maxdepth: 10
+
+.. raw:: latex
+
+	\listoffigures
+	\listoftables`
+
+
+Glosario
+--------
+
+:Conversor A/D: 
+
+	Conversor Analógico/Digital
+
+:HDR: 
+	
+	High Dynamic Range (alto rango dinámico)
+
+
+Introducción
+------------
+
+Modelo de cámara digital
+++++++++++++++++++++++++
+
+Una modelo de cámara simplificado presenta las siguientes partes:
+
+:Grupo óptico: 
+
+	Conjunto de lentes cuya función consiste en proporcionar una proyección plana de la escena sobre la superficie del sensor.
+
+:Diafragma:
+	
+	Compuerta poligonal que se abre y se cierra permitiendo pasar más o menos luz.
+
+:Obturador:
+
+	Tapa del sensor. Se abre para iniciar la exposición del sensor a la luz y se cierra para terminarla.
+
+:Sensor:
+
+	Dispositivo que al ser excitado por la luz genera una imagen digital.
+
+
+El sensor es la parte más compleja. Está compuesto de:
+
+:Filtro antialiasing:
+
+	Un filtro óptico antialiasing cubre el el filtro óptico de Bayer.
+
+
+:Filtro óptico de Bayer:
+
+	La mayoría de los sensores de las cámaras digitales no capturan valores RGB para cada pixel sino que contienen una capa por encima de los fotocaptores con un mosaico de filtros ópticos (CFA, Color Filter Array). Dentro de los múltiples patrones CFA el más uasdo es el patrón Bayer, diseñado por Bryce Bayer. Cada fotocaptor de una *cámara Bayer* tiene delante un filtro que deja pasar únicamente la luz de una determinada longitud de onda. Las longitudes de onda usadas en los filtros de color son las correspondientes al rojo, al verde y al azul. Si cogemos un cuadrado de 2x2 fotocaptores, sus correspondiente matriz de filtros de Bayer tendrán una de las siguientes estructuras conocidas como patrones de Bayer o mosaicos de Bayer:
+
+	.. math::
+
+		\begin{matrix}
+			\left(
+			\begin{matrix}
+				R & G_1 \\
+				G_2 & B
+			\end{matrix}
+			\right)
+			&
+			\left(
+			\begin{matrix}
+				G_1 & R \\
+				B & G_2
+			\end{matrix}
+			\right)
+		\end{matrix}
+
+		\begin{matrix}
+			\left(
+			\begin{matrix}
+				G_1 & B \\
+				R & G_2
+			\end{matrix}
+			\right)
+			&
+			\left(
+			\begin{matrix}
+				B & G_1 \\
+				G_2 & R
+			\end{matrix}
+			\right)	
+		\end{matrix}
+
+.. R G 		B G 		G R 		B G
+.. G B 		G R 		B G 		G R
+
+:Millones de fotocaptores:
+
+	Los fotocaptores son dispositivos electrónicos que transforman la luz en señal eléctrica. Cada fotocaptor se corresponde con un píxel de la fotografía digital resultante. 
+
+:Amplificador ISO:
+
+	Amplificador de la señal eléctrica generada por un fotocaptor.
+
+:Conversor A/D:
+
+	Conversor de la señal eléctrica analógica a un número digital de una determinada precisión.
+
+
+
+Comportamiento lineal de un sensor Bayer
+****************************************
+
+Un aspecto importante de los sensores Bayer es su comportamiento *casi* lineal. Esto viene significando que si ante un estímulo de luminosidad determinado el sensor genera un nivel digital dado, cuando el estímulo luminoso se reduce a la mitad, -1 EV, tambień lo hará el nivel generado por el sensor. Habitualmente existen ciertas alinealidades, sobre todo en los diafragmas, más altos, cerca del punto de saturación.
+
+
+Exposición
++++++++++++
+
+La exposición equivale a la luminosidad general de la fotografía. 
+
+.. math::
+
+	Exposure = Intensity \cdot Time \cdot Sensitivity
+
+
+Para generar una fotografía con el nivel de exposición deseado, las cámaras utilizan los siguiente valores: abertura del diafragma, tiempo de exposición e ISO. La abertura se corresponde con el término *Intensity* de la fórmula anterior, el tiempo de exposición con *Time* y el ISO con *Sensitivity*.
+
+
+:Abertura del diafragma:
+
+	Tamaño del agujero que forma el diafragma. La escala de aperturas, de mayor a menor abertura, está elaborada por los siguiente números: 
+
+	.. math::
+
+		\frac{f}{1}, \frac{f}{1.4}, \frac{f}{2}, \frac{f}{2.8}, \frac{f}{4}, \frac{f}{5.6}, \frac{f}{8}, \frac{f}{11}, \frac{f}{16}, \frac{f}{22}, \frac{f}{32}, ...
+
+	La explicación de estas fracciones no entra dentro del alcance del proyecto, pero no son arbitrarias. Cada objetivo (grupo óptico) tiene un valor mínimo y máximo de abertura. Pasar de uno de los valores anteriores al siguiente implica aumentar la dexposición 1 EV. Recíprocamente, pasar al anterior, disminuye la exposición otro EV.
+
+	Alterar la abertura afectará también a otros aspectos de la imagen, principalmente a la profundidad de campo. La profundidad de campo es el rango de distancias en el que los objetos aparencen nítidos. Fuera de este rango, los objetos se van desenfocando progresivamente.
+
+
+:Tiempo de exposición: 
+
+	Tiempo transcurrido entre que el obturador se abre y se cierra. Duplicar el tiempo exposición, aumentará el nivel de exposición 1 EV; y dividirlo entre 2, lo reducirá un EV.
+
+	El tiempo de exposición juega un papel fundamental en la captura. Si queremos capturar un objeto en movimiento, el tiempo de exposición deberá ser mucho menor que para capturar una escena estática, ya que el sensor irá capturando fotones del objeto que éste emitirá desde distintas posiciones dando lugar a imágenes difusas y "movidas".
+
+:ISO:
+
+	Ganancia del amplificador ISO. Valores típicos son 100, 200, 400, 800, 1600, 3200...
+	Al igual que antes, duplicar el iso, aumenta 1 EV, reducirla a la mitad, reduce 1 EV.
+
+	El ISO no tiene efectos "estéticos" en las imágenes más allá de la exposición. Aumentar el ISO suele introducir ruído (ruido de lectura). En la sección !!!!!! trataremos esto.
+
+Combinando estos valores se consigue modificar el nivel de exposición y/o factores estéticos. En las cámaras más asequibles es la propia cámara quien decide, midiendo la luz de la escena, como setearlos. Las más asequibles ni tan siquiera pueden configurar alguno de estos valores.
+
+En las cámaras avanzadas además de permitir al usuario configurar todos los valores, existen modos para que el usuario fije uno o dos de ellos y la cámara calcule el resto.
+
+
+Formato RAW
++++++++++++
+
+La salida de sensor de una cámara Bayer es una imagen sin ningún procesado en la que cada pixel sólo tiene definido una componente (canal) del modelo RGB debido al mosaico de Bayer que cubre al sensor.
+
+Para convertir una imagen RAW en una imagen raster convencional en la que cada píxel contiene información de todas las componentes del modelo de color usado se realiza un proceso que interpola los :math:`2/3` de información que nos falta. El proceso de pasar del dominio de Bayer al dominio RGB se denomina **demosaicing**.
+
+Existen multitud de algoritmos de demosaicing, *bilinear*, *AHD*, *AFD*, *VNG*, *PPG*, *AMAZE*... El resultado de usar un algoritmo u otro puede cambiar el resultado notablemente:
+
+	- Nitidez
+
+	- Aberraciones cromáticas
+
+	- Aliasing
+
+	- Artefactos
+
+	- Visibilidad de ruido
+
+
+.. TODO: Añadir detalle de distintos algoritmos de demosaicing.
+
+En las cámaras más simples no existe la opción de almacenar el RAW y en su lugar procesan el RAW para generar una imagen RGB (típicamente en formato JPEG). Este procesado consiste habitualmente en un proceso de demosaicing más corrección de gamma, seguido de un aumento de contraste, enfoque y saturación. Debido a que el procesador interno de una cámara tiene un rendimiento limitado por el consumo eléctrico y el tamaño del dispositivo, y además, el tiempo de respuesta de la cámara debe ser comedido, el resultado de realizar el paso del dominio de Bayer al dominio RGB en la propia cámara genera imágenes con una calidad inferior a la que podremos lograr al trabajar con imágenes RAW en un PC.
+
+
+Rango dinámico de una escena real
++++++++++++++++++++++++++++++++++
+
+El rango dinámico de una escena es la relación existente entre su punto de mayor luminosidad y el de menor luminosidad. Una escena donde el punto más luminoso sea 10.000 veces más lumimoso que el punto menos luminoso tendrá un rango dinámico lineal de 10.000, o lo que es lo mismo, un contraste de 10.000:1. Estas expresiones del rango dinámico no son las únicas. Otras unidades ampliamente usadas son el paso de diaframa, EV del inglés Expusure Value, y los decibelios, dB. El paso del rango lineal a estas unidades se realiza tal que así:
+
+.. math::
+
+	RD_{EV} = \log_{2} RD_{lineal}
+
+	RD_{dB} = 20 \cdot \log_{10} RD_{lineal}
+
+Por tanto, la escena de la que hablábamos en el párrafo anterior tiene un rango dinámico de 13'287 EV o, lo que es equivalente, de 80 dB. El uso de los pasos de diafragma es habitual en el mundo de la fotografía. El decibelio es más usada en el ámbito científico.
+
+
+Rango dinámico de una cámara fotográfica digital
+++++++++++++++++++++++++++++++++++++++++++++++++
+
+Hasta ahora hablamos del rango dinámico en una escena real. El rango dinámico de un sensor fotográfico puede definirse como la relación entre la máxima exposición que el sensor de puede registrar antes de saturarse y la mínima lumninosidad que puede captar con detalle.
+
+El factor que limita el rango dinámico por el extremo superior es, como en todo dispositivo electrónico, la saturación, el punto a partir del cual aunque llegue más luz para sensar, la señal de salida no aumenta. En el extremo inferior, el límite lo marca el ruido. 
+
+
+Definicón y tipos de ruido
+**************************
+
+El ruido puede ser definido como degradaciones aleatorias e indeseables que ocurren durante la captura, transmisión y procesamiento de imágenes [!!!].
+
+Los dos tipos de ruido predominantes en una fotografía son el ruido fotónico y el ruido de lectura. Existe un tercer tipo de ruido, el ruido de cuantización. Este tipo de ruido es enmascarado por los dos anteriores, por lo que no tiene efecto sobre el rango dinámico. No obstante, bajo ciertas circunstacias sí podría llegar a ser relevante. !!!
+
+
+Ruido fotónico
+..............
+
+El ruido fotónico obedece a la desviación del número de fotones captados por el sensor en un intervalo de tiempo con respecto a los fotones emitidos. Esta fluctuación se rige por la distribución estadística de Poisson (propia de un proceso aleatorio con llegadas discretas), así que su desviación típica es igual a la raíz cuadrada del número total de fotones emitidos. Esto implica que a mayor señal, más photon shot noise. Pero dado que el ruido no aumenta linealmente con la señal, sino a un ritmo inferior, proporcionalmente a más señal, menos photon shot noise. Por este motivo, este ruido es visible en las partes con menos luminosidad de las imágenes.
+
+Dado que el ruido fotónico es intríseco al comportamiento de la luz, no se puede mitigar con un mejor diseño de las cámaras.
+
+.. Cuando el número de fotones es muy grande la distribución de Poisson se puede aproximar por una distribución de Gauss.
+.. TODO: Mostrar imágenes.
+
+.. Simulación de ruido fotónico
+
+
+
+Ruido de lectura
+................
+
+El ruido de lectura se debe al ruido introducido en la imagen por la electrónica del sensor. Cada componente electrónico de la cadena de procesado de la señal sufre variaciones de voltaje que contribuyen a distorsionar la señal. Estos errores cometidos producen el ruido de lectura, que es independiente de la señal y marca el umbral de señal mínima que debe llegar al sensor para poder ser distinguida.
+
+
+.. figure:: img/read-noise.pdf
+	:width: 40%
+
+	Ruido de lectura.
+
+	Fotografía tomada con la tapa del objetivo puesta; de esta forma los fotocaptores no tienen fotones para capturar y toda la imagen es resultado del ruido introducido por la electrónica del sensor.
+
+Al contrario que el ruido fotónico, este tipo de ruido depende exclusivamente de la circuitería de la cámara, y por tanto es susceptible de ser reducido mejorando ésta.
+
+
+Ruido de cuantización
+*********************
+
+Por otro lado el número de bits en el que el conversor A/D codifica cada pixel impone un límite al rango dinámico. Debido al comportamiento lineal de los sensores Bayer, un proceso de digitalización con una precisión de 12 bits puede dar un rango dinámico 12 pasos de diafragma:
+
+
+
+.. tabularcolumns:: |r|r|r|
+
+.. csv-table:: Distribución de niveles tonales
+	:delim: ;
+	:header: EV, número de niveles, rango de niveles
+
+
+	 -0 EV; 2048;  [2048, 4095]
+	 -1 EV; 1024;  [1024, 2047]
+	 -2 EV;  512;   [512, 1023]
+	 -3 EV;	 256 ;  [256, 511]
+	 -4 EV;	 128 ;  [128, 255]
+	 -5 EV;   64 ;   [64, 127]
+	 -6 EV;	  32 ;    [32,63]
+	 -7 EV;	  16 ;    [16,31]
+	 -8 EV;	   8 ;     [8,15]
+	 -9 EV;	   4 ;     [4,7]
+	-10 EV;    2 ;     [2,3]
+	-11 EV;    1 ;      [1]
+
+Generalizando, un sensor con conversores A/D de N bits de precisión puede registrar en una codificación lineal un máximo de N pasos de diafragma. Sin embargo, la escasez de niveles en los diafragmas más bajos hace que en la práctica esto no sea cierto. Esta insfuciencia de niveles puede conducir a problemas de posterización en las sombras.
+
+.. .. raw:: latex
+
+.. 	\begin{figure}
+.. 		\centering
+.. 		\subfigure[Imagen cuantizada con 16 bits.]
+.. 		{
+.. 		  \includegraphics[width=0.4\textwidth]{img/cuantization-error/16bits.tiff}
+.. 		  \label{fig_firstsub}
+.. 		}
+.. 		\subfigure[Imagen cuantizada con 10 bits.]
+.. 		{
+.. 			\includegraphics[width=0.4\textwidth]{img/cuantization-error/10bits.tiff}
+.. 			\label{fig_secondsub}
+.. 		}
+.. 		\caption{Error de cuantización.}
+.. 	\end{figure}
+
+
+No existe un criterio estandarizado que especifique la cantidad de niveles necesarios en la representación de un diafragma dado para no mostrar posterización; ello dependerá de varias factores, como el nivel de brillo y contraste con que dicho diafragma aparezca en la imagen.
+
+Gracias al efecto *dither* del ruido, los fabricantes de sensores no necesitan conversores A/D de gran precisión, ya que la presencia de ruido de otros tipos enmascara el ruido de cuantización.
+
+
+.. raw:: latex
+
+	\begin{figure}
+		\centering
+		\subfigure[Imagen cuantizada con 16 bits.]
+		{
+		  \includegraphics[width=0.4\textwidth]{img/dithering/original.pdf}
+		  \label{fig_firstsub}
+		}
+		\subfigure[Imagen cuantizada con 4 bits.]
+		{
+			\includegraphics[width=0.4\textwidth]{img/dithering/original-quantization.pdf}
+			\label{fig_secondsub}
+		}
+		\\
+		\subfigure[Imagen con ruido añadido y cuantizada con 16 bits.]
+		{
+			\includegraphics[width=0.4\textwidth]{img/dithering/dither.pdf}
+			\label{fig_thirdsub}
+		}
+		\subfigure[Imagen con ruido añadido y cuantizada con 4 bits.]
+		{
+			\includegraphics[width=0.4\textwidth]{img/dithering/dither-quantization.pdf}
+			\label{fig_forthdsub}
+		}
+		\caption{Efecto dither.}
+	\end{figure}
+
+Sin embargo, dado que nuestro objetivo es generar imágenes con un nivel muy bajo de ruido para aumentar el rango dinámico, el número de bits con el que codificaremos la imagen final podría no ser suficiente y dar lugar a posterizaciones no deseadas.
+
+.. TODO: Esto se tratará en la sección X
+
+
+Influencia de la exposición en la relación señal-ruido
+++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+Como hemos visto en la sección !!!!, las cámaras digitales pueden combinar la abertura, el tiempo de exposición y el ISO para definir el nivel de exposición. 
+
+
+Descripción del problema
+++++++++++++++++++++++++
+
+Estos dos tipos de ruido de los que hemos hablado, el ruido fotónico y el ruido de lectura, degradan la imagen haciendo que se pierdan las texturas y el detalle que pretendemos captar en las sombras, las zonas donde menos señal es capturada. Esta interferencia del ruido en las luminosidades más bajas delimita el rando dinámico útil del sensor.
+
+Si realizamos dos tomas de una misma escena, una correctamente expuesta [#]_ y otra sobreexpuesta [#]_, la segunda tendrá una SNR mayor que la primera; pero presumiblemente habremos saturado las luces de la escena. Para aumentar el rango dinámico podemos coger las dos tomas y fusionarlas tal que la imagen final tenga las zonas de luces de la toma correctamente expuesta, ya que en la otra toma están quemadas, y el resto de la imagen provenga de la tomar sobreexpuesta tras aplicarle una correción a la baja en su nivel de exposición, para que amabas fotografías tenga el mismo grado de exposición.
+
+.. [#] Una toma correctamente expuesta es aquella en la que los valores ajustables de la cámara (tiempo de exposición, abertura y velocidad ISO) se ajustan para intentar conservar tanto las sombras como las luces de tal forma que la fotografía resultante tenga el aspecto de la escena en el momento en el que fue tomada.
+
+.. [#] Una toma estará sobreexpuesta si la exposición es mayor que la obtenida con una toma correctamente expuesta.
+
+Este tipo de procesado no es nuevo, existen multitud de programas que realizan una fusión de este estilo. Entre los más conocidos se encuentran el Photoshop o el Photomatix. Estos programas reciben como entrada dos o más imágenes raster (imágenes RGB), las fusionan y les aplican un proceso de mapeado de tonos. Este proceso reduce el fuerte contraste de la imagen de alto rango dinámico para ser visualizada en un medio de menor rango dinámico. Frecuentemente este proceso produce imágenes poco realistas, con los colores sobresaturados, luminosidades cruzadas y artefactos como halos.
+
+
+
+
+
+Alineación de imágenes
+----------------------
+
+Una de las principales limitaciones de las técnicas HDR es la necesidad de que la cámara permanezca totalmente estática entre toma y toma. Ni siquiera el uso de un trípode garantiza que la cámara permanezca inmóvil. Una pequeña ráfaga de viento o incluso el *golpe* del obturador al abrirse o al cerrarse pueden provocar deslizamientos. Al fusionar imágenes que no están perfectamentamente alineadas generamos imágenes borrosas o dobles.
+
+Los métodos convencionales para alinear imágenes suelen fracasar cuando la entrada son imágenes con distintos niveles de exposición. Esto sucede debido a que para realizar esta alineación el algoritmo realiza una serie de traslaciones/rotaciones guiado por función que se pretende minimizar. Habitualmente esta función calcula diferencias entre las imágenes.
+
+El algoritmo de alineación de imágenes basado en bitmaps se adapta especialmente bien a nuestro problema. Primero, porque es insensible a cambios de exposición, y segundo porque sólo calcula traslaciones. Al trabajar en el dominio de Bayer no es posible realizar una rotación ya que necesitaríamos interpolar píxeles de distintos canales (nivel de subpixel), lo que no tienen ningún sentido.
+
+
+
+Median Threshold Bitmap Based Technique
++++++++++++++++++++++++++++++++++++++++
+
+El algoritmo de alineación de imágenes basado en MTB descrito en :cite:`Ward2003` es insensible a cambios de exposición entre imágenes. En los resultados descritos por Ward se explica que el algoritmo ha sido probado con más de 100 fotografías realizadas sin trípode ni ayuda de estabilización alguna, con la cámara sujeta con las manos y los resultados son los siguiente:
+
+	- 84% de casos exitosos.
+
+	- 10% de resultados no satisfactorios debido a imágenes rotadas.
+
+	- 3% de fracasos debido a movimientos excesivos en la escena.
+
+	- 3% de fracasos causados por demasiado contenido de alta frecuencia (texturas).
+
+El primer baso del algoritmo es la generación de una imágenes MTB, bitmaps con el mismo número de píxeles 0 que 1, por cada imagen RAW de la entrada. Tras esto, utilizaremos una técnica piramidal para calcular los desplazamientos.
+
+Este algoritmo está pensado para imágenes RGB, pero al trabajar en el dominio de Bayer, necesitamos modificar ligeramente el algoritmo. A continuación, explicaremos paso a paso el algoritmo y los cambios que hemos hecho para adaptarlo a nuestro problema.
+
+
+
+Generación de MTBs
+******************
+
+El algoritmo original realiza un primer paso consistente en pasar de RGB a escala de grises.
+	
+.. math:: 
+
+	grey(x,y) = 0.21 red(x,y) + 0.72 green(x,y) +  0.07 blue(x,y)
+
+
+Para poder pasar nuestra imagen en el dominio de Bayer a escala de grises vamos a hacer los siguiente. Cada matriz de dos por dos píxeles con R y G1 como primera fila y B y G2 como segunda pasará a ser un único píxel con los 4 canales esperados, :math:`R`, :math:`G_1`, :math:`B`  y :math:`G_2` tal que así:
+
+.. math::
+
+	image(i,j,R) = raw(i\cdot2,j\cdot2)
+
+	image(i,j,G_1) = raw(i\cdot2+1,j\cdot2)
+
+	image(i,j,B) = raw(i\cdot2,j\cdot2+1)
+
+	image(i,j,G_2) = raw(i\cdot2+1,j\cdot2+1)
+
+
+
+Lógicamente, hemos reducido por 4 las dimensiones de nuestro raw pero no hemos perdido información. La justificación de realizar un demosaicing tan simple es que posteriormente realizaremos la fusión en el dominio de Bayer, por lo que necesitaremos que en el pixel :math:`(x,y)` de cada imagen a fusionar se encuentre el mismo canal Bayer, o todos :math:`R`, :math:`G_1`, :math:`B` o :math:`G_2`. Es decir, los patrones de Bayer deben coincidir. Para que las imágenes mantengan su patrón de Bayer, los desplazamientos al alinear, tanto verticales como horizontales, deben ser de dos en dos píxeles.
+
+Realizando el demosaicing anterior conseguimos esto y podemos proceder con la alineación con la técnica basada en MTB como si se tratase de una imagen :math:`RGB` a excepción del primer paso, el paso a escala de grises. Para ello utilizaremos la siguiente ecuación:
+
+.. math::
+
+	grey(x,y) = \frac{1}{4} (R(x,y) + G_1(x,y) + G_2(x,y) +  B(x,y))
+
+
+.. TODO: Explicar por qué simplifica la implementación (es independiente del patrón bayer).
+
+Esta ecuación asigna la misma relevancia a cada canal [#]_. Esto simplifica la implementación ya que podemos dejar de lado el patròn de Bayer que siga la cámara y además, mejora notablemente el rendimiento. Ya que por cada pixel del MTB necesitamos 1 multiplicación y 3 sumas. Si cada canal aportase un porcentaje distinto, necesitaríamos 4 multiplicaciones y 3 sumas. Es decir, eliminamos 3 multiplicaciones en coma flotante por cada pixel del MTB. Dos imágenes de 20 Megapíxeles pasan a formar dos MTBs de 5 Megapíxeles, es decir un total de 10 Megapíxeles. Con la ecuación anterior nos ahorraríamos en este caso 30 millones de multiplicaciones. Y lo mejor es que el resultado no debería verse comprometido. Es cierto que al pasar a escala de grises con la ecuación no ponderada obtenemos una imagen menos "correcta" perceptivamente pero técnicamente todos los canales son igual de importantes.
+
+.. [#] Dado que hay dos canales para el verde, el verde aporta el 50% de la información total, mientras que el canal rojo y el azul, un 25% cada uno.
+
+Con la imagen en gris calculamos la mediana y la convertimos a bitmap mediante un proceso de umbralización. Los píxeles cuyo valor estén por encima de la mediana pasan a ser blancos (valor 1) y los demás pasan a ser negros (valor 0):
+
+.. math::
+
+	MTB(x,y) = grey(x,y) \geq median
+
+Con estos dos pasos conseguimos que todas las imágenes pasen a tener un 50% de píxeles negros y el otro 50% blancos, de modo que el algoritmo es insensinble a los cambios de exposición.
+
+
+Algoritmo de alineación basado en MTBs
+**************************************
+
+Estamos ante un algoritmo que usa una técnica multiescalar, una pirámide de imágenes. El número de niveles de la pirámide, :math:`k` es un factor variable, limitado a :math:`log_2(min(width,height))` y fija el desplazamiento máximo :math:`N` en :math:`2^k` píxeles. El número de iteraciones del proceso coincide que el número de niveles de la pirámide.
+
+Lo primero que haremos antes de empezar a iterar es un recorte. Los bordes de la imagen normalmente no contienen mucha información, así que la excluiremos dichos bordes haciendo que la región central sea divisible por :math:`N` de forma que podemos incrementar la resolución por un factor de 2 en cada iteración.
+
+Las dos imágenes son subsampleadas por un factor de :math:`2^k`. El MTB de referencia subsampleado es comparado con el otro MTB subsampleada y con las 8 imágenes resultado de desplazadar este mapa de bits un pixel en cada dirección. Calculamos qué desplazamiento de los 9 anteriores, los 8 más el "no-desplazamiento", produce el error de alineación más bajo. Para calcular el error de desalineamiento se crea un nuevo bitmap con una simple operación binaria distuntiva exclusiva, :math:`XOR` o :math:`\oplus`, entre los dos MTBs y se suman todas sus píxeles:
+
+.. math::
+	
+	error(x,y) = mtb_1(x,y) \oplus mtb_2(x+x_{offset},y+y_{offset})
+
+	error_{total} = \sum_{y=0}^{height-1} \sum_{x=0}^{width-1} error(x,y)
+
+La siguiente iteración reduce el subsampleo por un factor de 2 y aplica un desplazamiento igual al desplazamiento calculado en la anterior iteración multiplicado por 2.
+
+Se repite este proceso hasta alcanzar la resolución original de las imágenes.
+
+
+Máscaras para añadir insensibilidad al ruido
+********************************************
+
+La gran ventaja de esta técnica basada en MTBs es su insensibilidad a la exposición. Sin embargo, como puede verse en el siguiente ejemplo, esta propiedad no se mantiene con el ruido.
+
+.. TODO añadir la imagen de ejemplo.
+
+
+Para intentar insensibilizar el algoritmo al ruido, Ward propone utilizar una máscara que evite los píxeles con un valor cercano a la mediana en el cálculo del error de desalineamiento. Para ello construimos otros dos bitmap en el que los píxeles que estén dentro de un determinado umbral desde la mediana tendrán valor 0, y el resto, 1:
+
+.. math::
+
+	mask(x,y) = (image(x,y) - median) \geq threshold
+
+
+Para utilizar las máscaras se realiza una operación math:`and` binaria (:math:`\And`) entre las dos máscaras, y a este resultado se le aplica otro math:`\And` con la función de error del apartado anterior. Matemáticamente:
+
+.. math::
+
+	mask(x,y) = mask_1(x,y) \And mask_2(x+x_{offset},y+y_{offset} )
+
+	error(x,y) = mtb_1(x,y) \oplus mtb_2(x+x_{offset},y+y_{offset}) \And mask(x,y)
+
+	error_{total} = \sum_{y=0}^{height-1} \sum_{x=0}^{width-1} error(x,y)
+
+
+
+Implementación
+**************
+
+.. La implementación que propone Ward en su paper es eficiente ya que el algoritmo utiliza operaciones lógicas binarias. Sin embargo, esta implementación es mejorable. Hay que pensar que con las cámaras actuales, que ya sobrepasan la decena de megapíxeles con facilidad, cualquier mínima mejora en el rendimiento se multiplica debido al tamaño de las imágenes.
+
+.. En la propuesta de Ward se realizan 4 operaciones de lectura y 3 operaciones lógicas por pixel (una vez tenemos los MTBs)
+
+
+Generación de imágenes HDR
+--------------------------
+
+.. TODO: revisar traducción de radiancia.
+
+Como describe :cite:`Khan2006`, existen dos aproximaciones a la hora de generar imágenes HDR a partir de varias tomas de distinto grado de exposición.
+
+La primera de estas opciones, la fusión en el dominio de la radiancia consiste en 3 pasos:
+
+	- Cálculo de la función de respuesta de la cámara para devolver él nivel de brillo de cada pixel al dominio de la radiancia.
+
+	- Los mapas de radiancia se combinan para generar una imagen HDR.
+
+	- Se usa un operador de mapeo de tonos.
+
+A pesar de que la fusión en el dominio de la radiancia consigue muy buenos resultados tiene dos desventajas importantes que residen en el cálculo de la función de respuesta de la cámara:
+
+	- Sensible al ruido y a los fallos de alineación.
+
+	- Computacionalmente costoso.
+
+La segunda, que será la que utilizaremos, es la fusión en el dominio de la imagen. Esto consiste en combinar las distintas tomas directamente sin conocer la función de la respuesta de la cámara, asumiendo que es lineal [#]_. El objetivo es intentar preservar las mejores partes de cada exposición.
+
+.. TODO: añadir referencia cruzada
+
+.. [#] Como hemos dicho en bla bla bla, la respuesta del sensor de una cámara no es totalmente lineal. Pero en cada nueva generación de cámaras digitales los sensores son más lineales.
+
+
+
+Antighosting
+************
+
+
+Mapeo de tonos
+--------------
+
+
+
+
+Cálculo de las exposiciones relativas
++++++++++++++++++++++++++++++++++++++
+
+Para realizar la fusión de dos tomas, estando una de ellas correctamente expuesta y la otra sobreexpuesta, necesitamos calcular la exposición relativa entre ambas tomas.
+
+Un valor que resume muy bien a luminosidad de la imagen es la mediana. Así que comparando la mediana de las dos imágenes podremos calcular la exposición relativa:
+
+.. math::
+
+	\Delta_{A}^{B} EV = \log_2 \frac{median_{img_B}}{median_{img_A}}
+
+
+Resultados
+----------
+
+
+Medición de la relación señal/ruido
++++++++++++++++++++++++++++++++++++
+
+La relación señal ruido se puede obtener a partir de la siguiente fórmula:
+
+.. math::
+
+	SNR_{lineal} = \frac{\mu - dark}{\sigma}
+	
+	SNR_{EV} = \log_{2} SNR_{lineal}
+
+	SNR_{dB} = 20 log_{10} SNR_{lineal}
+
+
+En las fórmulas anteriores :math:`dark` es el nivel mínimo que emite el conversor A/D, que no tiene por qué ser 0 en todas las cámaras, ni siquiera en en la misma cámara se tiene que mantener para todos los ISOs.
+
+
+.. .. figure:: img/measurements/luminosities.pdf
+.. 	:width: 90%
+
+.. 	Imagen con 16 rectángulos de diferentes luminosidades.
+
+La metodología para evaluar la reducción de ruido es la siguiente. Se realizan una serie de tomas sobre una imagen con zonas planas de diferente luminosidad configurando el tiempo de exposición para que tener una serie de fotografías con las siguientes exposiciones relativas:
+
+	- :math:`+0EV` 
+
+	- :math:`+2EV` 
+
+	- :math:`+3EV` 
+
+	- :math:`+4EV` 
+
+	- :math:`+6EV`
+
+Además, utilizaremos la apertura de diafragma más grande posible (reducimos la profundidad de campo) y enfocaremos manualmente evitando que los objetos de la escena salgan nítidos en las fotografías. El objetivo es que las variaciones entre píxeles que deberían tener el mismo valor estén únicamente ligadas al ruido del sensor y ni la media ni la desviación típica se vean afectados por la textura de los objetos de la escena o las manchas en el objetivo.
+
+
+Tras esto mediremos cada la desviación típica y la media de cada parche.
+
+
+.. csv-table::
+	:delim: ;
+	:header: Fotografía, área 1, área 2, área 3, área 4, área 5, área 6, área 7, área 8
+
+	referencia: +0EV; 
+	HDR: :math:`+0EV,+2EV`;
+	HDR: :math:`+0EV,+4EV`;
+	HDR: :math:`+0EV,+2EV,+4EV`;
+	HDR: :math:`+0EV,+3EV`;
+	HDR: :math:`+0EV,+6EV`;
+	HDR: :math:`+0EV,+3EV,+6EV`
+
+
+.. bibliography:: refs.bib
+	:cited:
+	:style: unsrt
