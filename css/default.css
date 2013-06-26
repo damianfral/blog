@@ -127,3 +127,8 @@ h4
 	margin-top: 16px;
 	margin-bottom: 0px;
 }
+
+.sourceCode
+{
+	overflow-x: auto;
+}
