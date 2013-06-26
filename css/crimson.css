@@ -4,9 +4,9 @@
 
 @font-face {
     font-family: 'CrimsonRoman';
-    src: url('/fonts/Crimson-Roman-webfont.woff') format('woff'),
-         url('/fonts/Crimson-Roman-webfont.ttf') format('truetype'),
-         url('/fonts/Crimson-Roman-webfont.svg#CrimsonRoman') format('svg');
+    src: url('../fonts/Crimson-Roman-webfont.woff') format('woff'),
+         url('../fonts/Crimson-Roman-webfont.ttf') format('truetype'),
+         url('../fonts/Crimson-Roman-webfont.svg#CrimsonRoman') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -14,9 +14,9 @@
 
 @font-face {
     font-family: 'CrimsonBold';
-    src: url('/fonts/Crimson-Bold-webfont.woff') format('woff'),
-         url('/fonts/Crimson-Bold-webfont.ttf') format('truetype'),
-         url('/fonts/Crimson-Bold-webfont.svg#CrimsonBold') format('svg');
+    src: url('../fonts/Crimson-Bold-webfont.woff') format('woff'),
+         url('../fonts/Crimson-Bold-webfont.ttf') format('truetype'),
+         url('../fonts/Crimson-Bold-webfont.svg#CrimsonBold') format('svg');
     font-weight: normal;
     font-style: normal;
 
@@ -24,9 +24,9 @@
 
 @font-face {
     font-family: 'CrimsonBoldItalic';
-    src: url('/fonts/Crimson-BoldItalic-webfont.woff') format('woff'),
-         url('/fonts/Crimson-BoldItalic-webfont.ttf') format('truetype'),
-         url('/fonts/Crimson-BoldItalic-webfont.svg#CrimsonBoldItalic') format('svg');
+    src: url('../fonts/Crimson-BoldItalic-webfont.woff') format('woff'),
+         url('../fonts/Crimson-BoldItalic-webfont.ttf') format('truetype'),
+         url('../fonts/Crimson-BoldItalic-webfont.svg#CrimsonBoldItalic') format('svg');
     font-weight: normal;
     font-style: normal;
 
