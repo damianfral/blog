@@ -9,11 +9,11 @@ import           Control.Monad
 
 myFeedConfiguration :: FeedConfiguration
 myFeedConfiguration = FeedConfiguration
-    { feedTitle = "damianfral blog"
+    { feedTitle = "damianfral's blog"
     , feedDescription = "Damián Franco Álvarez's blog"
     , feedAuthorName = "Damián Franco Álvarez"
     , feedAuthorEmail = "huevofritopamojarpan@gmail.com"
-    , feedRoot = "http://great-old-ones.com"
+    , feedRoot = "http://damianfral.github.io/blog"
     }
 
 --------------------------------------------------------------------------------
