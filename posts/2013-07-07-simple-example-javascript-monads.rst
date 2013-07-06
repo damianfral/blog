@@ -1,5 +1,5 @@
 ----
-title: Simple JavaScript/CoffeeScript Maybe Monad [#]_
+title: Simple JavaScript/CoffeeScript Maybe Monad
 ----
 
 This article is based on `Why use monads`_.
