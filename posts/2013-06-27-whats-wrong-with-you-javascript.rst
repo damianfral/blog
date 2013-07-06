@@ -7,15 +7,15 @@ title: What's wrong with you, JavaScript?
 Prototypal Object Orientation
 .............................
 
-Class-based object orientation is more common. **JavaScript is the only mainstream language that has prototypes**. I don't want to say which one is better, just that I feel more confortable with classes. JavaScript prototypes can emulate class systems. In fact, there are many libraries for that.
+Class-based object orientation is the most used approach to object orientation. **JavaScript is the only mainstream language that has prototypes**. I don't want to say which one is better, just that I feel more confortable with classes. JavaScript prototypes can emulate class systems. In fact, there are many libraries for that.
 
 
 Modules and Var declaration
 ...........................
 
-**JavaScript has no formal construct for namespaces**. Module pattern (passing the namespace as an argument to an anonymous self-invoking function) is really helpful. Lexical scope and closures are awesome, which allows the module pattern, but something as important as namespaces must be part of the language, don't you think?
+**JavaScript has no formal construct for namespaces**. Module pattern (passing the namespace as an argument to an anonymous self-invoking function) is really helpful. Lexical scope and closures are nice, which allows the module pattern, but something as important as namespaces must be part of the language, don't you think?
     
-Another weird behaviour is related with the `var` keyword. If you declare a variable with `var`, it will belong to the local scope. If you don't, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).
+Another weird behaviour is related to the `var` keyword. If you declare a variable with `var`, it will belong to the local scope. If you don't, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).
 
 Syntax
 ......
@@ -46,7 +46,14 @@ I prefer indentation over braces and parenthesis, so the above code looks pretty
 Dynamic typing and late binding
 ...............................
 
-Delaying type-checking to runtime is nice for fast-prototyping and data intensive applications (generating types and behaviours based on runtime data). Not so many years ago, JavaScript was used as a toy language to add some animations, form validations and simple stuffs. AJAX changed it all. JavaScript has been growing up and nowadays it is used in bigger apps (databases, game engines, communications apps, multimedia apps..) that may have a high cyclomatic complexity. Since JavaScript just checks types and binds names in runtime, a stupid unnoticed                                                                                                                  error misnaming a variable or a method could slap your face in the worst moment (*demo effect*).
+Delaying type-checking to runtime is nice for fast-prototyping and data intensive applications (generating types and behaviours based on runtime data). Not so many years ago, JavaScript was used as a toy language to add some animations, form validations and simple stuffs. AJAX changed it all. JavaScript has been growing up since then and nowadays it is used in bigger apps (databases, game engines, communications apps, multimedia apps..) that may have a high cyclomatic complexity. Since JavaScript just checks types and binds names in runtime, a stupid unnoticed error misnaming a variable or a method could slap your face in the worst moment (*demo effect*).
+
+.. raw::  html
+
+    <div class="row">
+        <img src="http://i.imgur.com/tYrpOT3.gif" class="large-6 large-offset-3 columns centered">
+    </div>
+    
 
 Static typing is not the holy grail, but it helps. Haskell guys, as `@EleDiaz`_ , know that if Haskell code compiles, it is almost certain that it will work as expected.
 

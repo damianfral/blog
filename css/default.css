@@ -4,13 +4,6 @@ html, body
 	width: 100%;
 }
 
-#wrapper
-{
-	background-color: #FFFFEF;
-	color: #223;
-	font-family: 'CrimsonRoman';
-	padding: 32px;
-}
 
 header
 {
@@ -31,13 +24,6 @@ header a
 }
 
 
-header a:hover
-{
-	color: #CA2;
-
-} 
-
-
 hr
 {
 	border-top-color: #233;
@@ -55,7 +41,6 @@ footer
 }
 
 
-
 /* Section titles are uppercased.*/
 h1, h2, h3, h4, header
 {
@@ -65,44 +50,24 @@ h1, h2, h3, h4, header
 	text-transform: uppercase;
 }
 
+
 p
 {
 	font-size: 1.2em;
 }
 
-.sourceCode
-{
-	font-size: 1em;
-}
 
 a
 {
 	text-decoration: none;
 }
 
+
 li
 {
 	list-style: none;
 }
 
-
-.article-title
-{
-	margin-top: 0px;
-	margin-bottom: 0px;
-}
-
-.date
-{
-	font-style: italic;
-}
-
-.footnotes hr
-{
-	border-style: dotted;
-	border-top-width: 1px;
-	
-}
 
 h1
 {
@@ -128,7 +93,50 @@ h4
 	margin-bottom: 0px;
 }
 
+img
+{
+	margin-bottom: 1.25em;
+}
+
+.article-title
+{
+	margin-top: 0px;
+	margin-bottom: 0px;
+	font-size: 3em;
+}
+
+
+.date
+{
+	font-style: italic;
+	margin-bottom: 64px;
+}
+
+
+.footnotes hr
+{
+	border-style: dotted;
+	border-top-width: 1px;
+	
+}
+
 .sourceCode
 {
+	font-size: 1em;
 	overflow-x: auto;
+}
+
+
+.sourceCode.Coffeescript > code
+{
+	color: #333;
+}
+
+
+#wrapper
+{
+	background-color: #FFFFEF;
+	color: #223;
+	font-family: 'CrimsonRoman';
+	padding: 32px;
 }
