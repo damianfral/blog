@@ -1,28 +1,195 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-    <title>damianfral blog</title>
-    <link href="http://great-old-ones.com/atom.xml" rel="self" />
-    <link href="http://great-old-ones.com" />
-    <id>http://great-old-ones.com/atom.xml</id>
+    <title>damianfral's blog</title>
+    <link href="http://damianfral.github.io/blog/atom.xml" rel="self" />
+    <link href="http://damianfral.github.io/blog" />
+    <id>http://damianfral.github.io/blog/atom.xml</id>
     <author>
         <name>Damián Franco Álvarez</name>
         <email>huevofritopamojarpan@gmail.com</email>
     </author>
-    <updated>2013-06-27T00:00:00Z</updated>
+    <updated>2013-07-07T00:00:00Z</updated>
     <entry>
+    <title>Simple JavaScript/CoffeeScript Maybe Monad [#]_</title>
+    <link href="http://damianfral.github.io/blog/posts/2013-07-07-simple-example-javascript-monads.html" />
+    <id>http://damianfral.github.io/blog/posts/2013-07-07-simple-example-javascript-monads.html</id>
+    <published>2013-07-07T00:00:00Z</published>
+    <updated>2013-07-07T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<h1 class="article-title">
+	Simple JavaScript/CoffeeScript Maybe Monad [#]_
+</h1>
+<div class="date">
+	Posted on 07/07/2013
+</div>
+<p>This article is based on <a href="http://www.intensivesystems.net/tutorials/why_monads.html">Why use monads</a>.</p>
+<p>Suppose you have some functions that take a number and answer another number or <em>null</em>:</p>
+<pre class="sourceCode Coffeescript"><code>inc = (x) -&gt; 
+    if x isnt 6
+        x + 1
+    else
+        null
+
+double = (x) -&gt;
+    if x % 2
+        x * 2
+    else
+        null
+
+dec = (x) -&gt;
+    if x isnt 3
+        x - 1
+    else
+        null</code></pre>
+<p>Now, you want to compose a new function that chains previous functions. Something like this:</p>
+<pre class="sourceCode Coffeescript"><code>all = (x) -&gt;
+    dec(double(inc(x)))</code></pre>
+<p>This is not the most elegant way of chaining functions, so you write a <em>generic chain</em> function:</p>
+<pre class="sourceCode Coffeescript"><code>chain = (funs) -&gt;
+    funcs = arguments
+    (arg) -&gt;
+        for i in [0 .. funcs.length - 1]
+            arg = funcs[i](arg)
+
+        return arg
+
+all = chain dec, double, inc
+all 3 # Wrong result: 3. Expected result: null</code></pre>
+<p>In spite of being better path, you still have to treat with null values or otherwise we will see things like last line of the above code (in JavaScript <em>null</em> plus 1 is 1). You could change previous chaining function in order to be specific for this problem or create new all function that stops running and returns null when a <em>chained</em> function returns null:</p>
+<pre class="sourceCode Coffeescript"><code>all = (x) -&gt;
+    return null if tmp is null
+    tmp = inc x
+    return null if tmp is null
+    tmp = double tmp
+    return null if tmp is null
+    tmp = dec tmp
+    return tmp</code></pre>
+<p>There is a clear pattern there; these functions are monadic functions under the maybe-m monad, we can combine them like this <sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>:</p>
+<pre class="sourceCode Coffeescript"><code>all = doMonad MaybeMonad, inc, double, dec
+all null # null
+all 3    # null
+all 8    # 17</code></pre>
+<p>Other languages like Haskell allow this kind of composition without efford. In JavaScript (or CoffeeScript) we have to work a little more to get it:</p>
+<pre class="sourceCode Coffeescript"><code>None       = null
+MaybeMonad = 
+    mReturn: (value) -&gt;
+        if value in [undefined, null, NaN]
+            return None
+        return value
+
+    mBind: (value, f) -&gt;
+        return None if value is None
+        return f value
+
+
+
+doMonad = (monad, funcs...) -&gt;
+    (result) -&gt;
+        iterator = (i = 0) -&gt;
+            if i is funcs.length
+                return monad.mReturn result
+            else
+                result   = funcs[i] result
+                return monad.mBind result, -&gt; iterator i + 1
+
+        return monad.mBind (monad.mReturn result), -&gt; iterator 0</code></pre>
+<p>What the hell do have we here? It easier than it seems. There is a None variable, a MaybeMonad associative array and a doMonad function. The MaybeMonad has 2 functions.</p>
+<dl>
+<dt> mReturn</dt>
+<dd><p>takes a value and transform it (or maybe not).</p>
+</dd>
+<dt> mBind</dt>
+<dd><p>takes a value (it will be always returned by mReturn) and a function and do some computations to call that function (or maybe not).</p>
+</dd>
+</dl>
+<p>The doMonad functions takes a monad and a bunch of functions (funcs) and returns a new function. This function will receive an argument (result) and it will iterate over funcs to call them with the value returned for the previous function as argument except for the first function (it has not previous function) that receives the same argument, called result, as the wrapper function. The special thing here is that these iterative execution of functions are <em>proxied</em> with monad.mBind. In the case of MaybeMonad, mBind decides if the next function will be executed or not.</p>
+<p>The point is doMonad is generic and you can write your own monads to composing functions with your own pattern. Let’s see the List monad:</p>
+<pre class="sourceCode Coffeescript"><code>flatten = (value) -&gt;
+    if Array.isArray value
+        output = []
+        value.map (elem) -&gt;
+            if Array.isArray elem
+                output = output.concat flatten elem
+            else
+                output.push elem
+        return output
+    else
+        return [value]
+
+
+ListMonad = 
+    mBind: (value, f) -&gt;
+        output = f value
+        return flatten output
+
+    mReturn: (value) -&gt;
+        return [value]</code></pre>
+<p>In this case, mBind don’t stops the chained executions, but just flat the returned array received as argument. We can get this:</p>
+<pre class="sourceCode Coffeescript"><code>ListMonad = 
+    mBind: (value, f) -&gt;
+        output = f value
+        return flatten output
+
+    mReturn: (value) -&gt;
+        return [value]
+
+
+replicate = (n, v) -&gt;
+    return [] if n is 0
+    output = [v]
+    output = output.concat replicate n - 1 , v
+
+generation = (value) -&gt; replicate 3, value
+
+f = doMonad ListMonad, generation, generation
+f &quot;No God! Please no!&quot;
+# [ &#39;No God! Please no!&#39;,
+#   &#39;No God! Please no!&#39;,
+#   &#39;No God! Please no!&#39;,
+#   &#39;No God! Please no!&#39; ]</code></pre>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Copy-pasted sentence.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
+<hr/>
+<div id="disqus_thread">
+</div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
+         /* * * DON'T EDIT BELOW THIS LINE * * */
+         (function() {
+        	var dsq = document.createElement('script');
+        	dsq.type = 'text/javascript';
+        	dsq.async = true;
+        	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+</script>
+<noscript>
+	Please enable JavaScript to view the
+	<a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>]]></summary>
+</entry>
+<entry>
     <title>What's wrong with you, JavaScript?</title>
-    <link href="http://great-old-ones.com/posts/2013-06-27-whats-wrong-with-you-javascript.html" />
-    <id>http://great-old-ones.com/posts/2013-06-27-whats-wrong-with-you-javascript.html</id>
+    <link href="http://damianfral.github.io/blog/posts/2013-06-27-whats-wrong-with-you-javascript.html" />
+    <id>http://damianfral.github.io/blog/posts/2013-06-27-whats-wrong-with-you-javascript.html</id>
     <published>2013-06-27T00:00:00Z</published>
     <updated>2013-06-27T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<h1 class="article-title">What's wrong with you, JavaScript?</h1>
-<div class="date">Posted on June 27, 2013</div>
-
+    <summary type="html"><![CDATA[<h1 class="article-title">
+	What's wrong with you, JavaScript?
+</h1>
+<div class="date">
+	Posted on 27/06/2013
+</div>
 <h1>Prototypal Object Orientation</h1>
-<p>Class-based object orientation is more common. <strong>JavaScript is the only mainstream language that has prototypes</strong>. I don’t want to say which one is better, just that I feel more confortable with classes. JavaScript prototypes can emulate class systems. In fact, there are many libraries for that.</p>
+<p>Class-based object orientation is the most used approach to object orientation. <strong>JavaScript is the only mainstream language that has prototypes</strong>. I don’t want to say which one is better, just that I feel more confortable with classes. JavaScript prototypes can emulate class systems. In fact, there are many libraries for that.</p>
 <h1>Modules and Var declaration</h1>
-<p><strong>JavaScript has no formal construct for namespaces</strong>. Module pattern (passing the namespace as an argument to an anonymous self-invoking function) is really helpful. Lexical scope and closures are awesome, which allows the module pattern, but something as important as namespaces must be part of the language, don’t you think?</p>
-<p>Another weird behaviour is related with the var keyword. If you declare a variable with var, it will belong to the local scope. If you don’t, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).</p>
+<p><strong>JavaScript has no formal construct for namespaces</strong>. Module pattern (passing the namespace as an argument to an anonymous self-invoking function) is really helpful. Lexical scope and closures are nice, which allows the module pattern, but something as important as namespaces must be part of the language, don’t you think?</p>
+<p>Another weird behaviour is related to the var keyword. If you declare a variable with var, it will belong to the local scope. If you don’t, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).</p>
 <h1>Syntax</h1>
 <p>Event driven code is really common in JavaScript. Usually, if you don’t use promises or futures, you define a callback that is passed as argument to a function that binds that function to an event, like DOM events in the browser or EventEmitter events in Nodejs. So, when you have a callback that binds another callback to another event that binds another callback to… and enclosed by the module pattern, you will see something like this:</p>
 <pre class="sourceCode Javascript"><code class="sourceCode javascript">(<span class="kw">function</span>() 
@@ -42,7 +209,10 @@
 }).<span class="fu">call</span>(<span class="kw">this</span>);</code></pre>
 <p>I prefer indentation over braces and parenthesis, so the above code looks pretty ugly for me.</p>
 <h1>Dynamic typing and late binding</h1>
-<p>Delaying type-checking to runtime is nice for fast-prototyping and data intensive applications (generating types and behaviours based on runtime data). Not so many years ago, JavaScript was used as a toy language to add some animations, form validations and simple stuffs. AJAX changed it all. JavaScript has been growing up and nowadays it is used in bigger apps (databases, game engines, communications apps, multimedia apps..) that may have a high cyclomatic complexity. Since JavaScript just checks types and binds names in runtime, a stupid unnoticed error misnaming a variable or a method could slap your face in the worst moment (<em>demo effect</em>).</p>
+<p>Delaying type-checking to runtime is nice for fast-prototyping and data intensive applications (generating types and behaviours based on runtime data). Not so many years ago, JavaScript was used as a toy language to add some animations, form validations and simple stuffs. AJAX changed it all. JavaScript has been growing up since then and nowadays it is used in bigger apps (databases, game engines, communications apps, multimedia apps..) that may have a high cyclomatic complexity. Since JavaScript just checks types and binds names in runtime, a stupid unnoticed error misnaming a variable or a method could slap your face in the worst moment (<em>demo effect</em>).</p>
+<div class="row">
+    <img src="http://i.imgur.com/tYrpOT3.gif" class="large-6 large-offset-3 columns centered">
+</div>
 <p>Static typing is not the holy grail, but it helps. Haskell guys, as <a href="https://twitter.com/EleDiaz777">@EleDiaz</a> , know that if Haskell code compiles, it is almost certain that it will work as expected.</p>
 <p>And some web applications need performance. Doing some tasks in the compilation time<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> (AOT), can give us, for example, a higher FPS value in our game.</p>
 <h1>Weak typing</h1>
@@ -64,7 +234,26 @@
 <li id="fn1"><p>Generally, JavaScript interpreters are JIT compiler, therefore there is a <em>classical</em> compilation time.<a href="#fnref1">↩</a></p></li>
 </ol>
 </div>
-]]></summary>
+<hr/>
+<div id="disqus_thread">
+</div>
+<script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
+         /* * * DON'T EDIT BELOW THIS LINE * * */
+         (function() {
+        	var dsq = document.createElement('script');
+        	dsq.type = 'text/javascript';
+        	dsq.async = true;
+        	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+</script>
+<noscript>
+	Please enable JavaScript to view the
+	<a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
+</noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>]]></summary>
 </entry>
 
 </feed>
