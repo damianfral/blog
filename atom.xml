@@ -10,13 +10,13 @@
     </author>
     <updated>2013-07-07T00:00:00Z</updated>
     <entry>
-    <title>Simple JavaScript/CoffeeScript Maybe Monad</title>
-    <link href="http://damianfral.github.io/blog/posts/2013-07-07-simple-example-javascript-monads.html" />
-    <id>http://damianfral.github.io/blog/posts/2013-07-07-simple-example-javascript-monads.html</id>
+    <title>Simple Monads Example (CoffeeScript)</title>
+    <link href="http://damianfral.github.io/blog/posts/2013-07-07-simple-monads-example.html" />
+    <id>http://damianfral.github.io/blog/posts/2013-07-07-simple-monads-example.html</id>
     <published>2013-07-07T00:00:00Z</published>
     <updated>2013-07-07T00:00:00Z</updated>
     <summary type="html"><![CDATA[<h1 class="article-title">
-	Simple JavaScript/CoffeeScript Maybe Monad
+	Simple Monads Example (CoffeeScript)
 </h1>
 <div class="date">
 	Posted on 07/07/2013
@@ -40,21 +40,19 @@ dec = (x) -&gt;
         x - 1
     else
         null</code></pre>
-<p>Now, you want to compose a new function that chains previous functions. Something like this:</p>
+<p>Now, you want to compose a new function chaining previous functions. Something like this:</p>
 <pre class="sourceCode Coffeescript"><code>all = (x) -&gt;
     dec(double(inc(x)))</code></pre>
 <p>This is not the most elegant way of chaining functions, so you write a <em>generic chain</em> function:</p>
-<pre class="sourceCode Coffeescript"><code>chain = (funs) -&gt;
-    funcs = arguments
+<pre class="sourceCode Coffeescript"><code>chain = (funcs...) -&gt;
     (arg) -&gt;
-        for i in [0 .. funcs.length - 1]
-            arg = funcs[i](arg)
-
+        for fun in funcs
+            arg = func arg
         return arg
 
 all = chain dec, double, inc
 all 3 # Wrong result: 3. Expected result: null</code></pre>
-<p>In spite of being better path, you still have to treat with null values or otherwise we will see things like last line of the above code (in JavaScript <em>null</em> plus 1 is 1). You could change previous chaining function in order to be specific for this problem or create new all function that stops running and returns null when a <em>chained</em> function returns null:</p>
+<p>In spite of being a better path, you still have to deal with null values or otherwise we will see things like last line of the above code (in JavaScript <em>null</em> plus 1 is 1). You could change previous chaining function in order to be specific for this problem or create new all function that stops running and returns null when a <em>chained</em> function returns null:</p>
 <pre class="sourceCode Coffeescript"><code>all = (x) -&gt;
     return null if tmp is null
     tmp = inc x
@@ -93,14 +91,10 @@ doMonad = (monad, funcs...) -&gt;
 
         return monad.mBind (monad.mReturn result), -&gt; iterator 0</code></pre>
 <p>What the hell do have we here? It easier than it seems. There is a None variable, a MaybeMonad associative array and a doMonad function. The MaybeMonad has 2 functions.</p>
-<dl>
-<dt> mReturn</dt>
-<dd><p>takes a value and transform it (or maybe not).</p>
-</dd>
-<dt> mBind</dt>
-<dd><p>takes a value (it will be always returned by mReturn) and a function and do some computations to call that function (or maybe not).</p>
-</dd>
-</dl>
+<ul>
+<li><p><strong>mReturn</strong> takes a value and transform it (or maybe not).</p></li>
+<li><p><strong>mBind</strong> takes a value (it will be always returned by mReturn) and a function and do some computations to call that function (or maybe not).</p></li>
+</ul>
 <p>The doMonad functions takes a monad and a bunch of functions (funcs) and returns a new function. This function will receive an argument (result) and it will iterate over funcs to call them with the value returned for the previous function as argument except for the first function (it has not previous function) that receives the same argument, called result, as the wrapper function. The special thing here is that these iterative execution of functions are <em>proxied</em> with monad.mBind. In the case of MaybeMonad, mBind decides if the next function will be executed or not.</p>
 <p>The point is doMonad is generic and you can write your own monads to composing functions with your own pattern. Let’s see the List monad:</p>
 <pre class="sourceCode Coffeescript"><code>flatten = (value) -&gt;
