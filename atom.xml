@@ -46,7 +46,7 @@ dec = (x) -&gt;
 <p>This is not the most elegant way of chaining functions, so you write a <em>generic chain</em> function:</p>
 <pre class="sourceCode Coffeescript"><code>chain = (funcs...) -&gt;
     (arg) -&gt;
-        for fun in funcs
+        for func in funcs
             arg = func arg
         return arg
 
