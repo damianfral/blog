@@ -20,7 +20,9 @@ Another weird behaviour is related to the `var` keyword. If you declare a variab
 Syntax
 ......
 
-Event driven code is really common in JavaScript. Usually, if you don't use promises or futures, you define a callback that is passed as argument to a function that binds that function to an event, like DOM events in the browser or EventEmitter events in Nodejs. So, when you have a callback that binds another callback to another event that binds another callback to... and enclosed by the module pattern, you will see something like this:
+Event driven code is really common in JavaScript. Usually, if you don't use promises or some stuffs like `Flow-Based Programming`_ (FBP), you define a callback that is passed as argument to a function that binds that function to an event, like DOM events in the browser or EventEmitter events in Nodejs. So, when you have a callback that binds another callback to another event that binds another callback to... and enclosed by the module pattern, you will see something like this:
+
+.. _`Flow-Based Programming`: http://noflojs.org/
 
 .. code:: Javascript
 
@@ -55,18 +57,17 @@ Delaying type-checking to runtime is nice for fast-prototyping and data intensiv
     </div>
     
 
-Static typing is not the holy grail, but it helps. Haskell guys, as `@EleDiaz`_ , know that if Haskell code compiles, it is almost certain that it will work as expected.
+Static typing is not the holy grail, but it is **safer**. Haskell guys, as `@EleDiaz`_ , know that if Haskell code compiles, it is almost certain that it will work as expected.
 
 .. _`@EleDiaz`: https://twitter.com/EleDiaz777
 
-And some web applications need performance. Doing some tasks in the compilation time[1]_  (AOT), can give us, for example, a higher FPS value in our game.
+And some web applications need performance. Doing some tasks in the compilation time (AOT), can give us, for example, a higher FPS value in our game.
 
-.. [1] Generally, JavaScript interpreters are JIT compiler, therefore there is a *classical* compilation time.
 
 Weak typing 
 ...........
 
-Coercion plus dynamic typing results on a ***debugging hell***. Many JavaScript programmers, I guess, have noticed that debugging JavaScript code is not easy. Many errors are hidden by implicit conversions. It might speed up development, but it slows down debugging by a higher factor.
+Coercion plus dynamic typing results on a ***debugging hell***. Many JavaScript programmers, I guess, have noticed that debugging JavaScript code is not easy. Many errors are hidden by implicit conversions. It might speed up development (in my opinion, it's just true in the case of small apps; bigger applications require safety), but it slows down debugging by a higher factor.
 
 
 Surprise behaviour
