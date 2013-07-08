@@ -65,7 +65,8 @@ a
 
 li
 {
-	list-style: none;
+	list-style: disc;
+	margin-left: 1.2em;
 }
 
 
@@ -118,6 +119,11 @@ img
 	border-style: dotted;
 	border-top-width: 1px;
 	
+}
+
+.posts > li
+{
+	list-style: none;
 }
 
 .sourceCode
