@@ -139,9 +139,8 @@ In this case, *mBind* doesn't stops the chained executions, but just flats the r
             return [value]
 
 
-    replicate = (n, v) ->
-        return [] if n is 0
-        return [v].concat replicate n - 1, v
+    replicate = (n) ->
+        (v) -> [0...n].map -> v
 
     generation = (value) -> replicate 3, value
 
