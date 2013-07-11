@@ -50,7 +50,7 @@ This is not the most elegant way of chaining functions, so you write a *generic 
     all = chain dec, double, inc
     all 3 # Wrong result: 3. Expected result: null
 
-In spite of being a better path, you still have to deal with null values or otherwise we will see things like last line of the above code (in JavaScript *null* plus 1 is 1). You could change previous chaining function in order to be specific for this problem or create new all function that stops running and returns null when a *chained* function returns null:
+In spite of being a better path, you still have to deal with null values or otherwise we will see things like last line of the above code (in JavaScript *null* plus 1 is 1). You could change previous chaining function in order to be specific for this problem or create new all function that stops running and returns null when a *chained* function returns *null*:
 
 .. code:: Coffeescript
 
@@ -63,7 +63,7 @@ In spite of being a better path, you still have to deal with null values or othe
         tmp = dec tmp
         return tmp
 
-There is a clear pattern there; these functions are monadic functions under the maybe-m monad, we can combine them like this [#]_:
+There is a clear pattern there; these functions are monadic functions under the **maybe monad**, we can combine them like this [#]_:
 
 .. code:: Coffeescript
 
@@ -101,7 +101,7 @@ Other languages like Haskell allow this kind of composition without efford. In J
             return monad.mBind (monad.mReturn result), -> iterator 0
 
 
-What the hell do have we here? It easier than it seems. There is a None variable, a MaybeMonad associative array and a doMonad function. The MaybeMonad has 2 functions.
+What the hell do we have here? It easier than it seems. There is a *None* variable, a *MaybeMonad* associative array and a doMonad function. The MaybeMonad has 2 functions.
 
 - **mReturn** takes a value and transform it (or maybe not).
 
@@ -126,22 +126,13 @@ The point is doMonad is generic and you can write your own monads to composing f
             return [value]
                 
 
-    ListMonad = 
-        mBind: (value, f) ->
-            output = f value
-            return flatten output
-
-        mReturn: (value) ->
-            return [value]
-       
-
-In this case, mBind don't stops the chained executions, but just flat the returned array received as argument. We can get this:
+In this case, *mBind* doesn't stops the chained executions, but just flats the returned array received as argument. We can get this:
 
 .. code:: Coffeescript
 
     ListMonad = 
-        mBind: (value, f) ->
-            output = f value
+        mBind: (list, f) ->
+            output = list.map f
             return flatten output
 
         mReturn: (value) ->
@@ -150,14 +141,19 @@ In this case, mBind don't stops the chained executions, but just flat the return
 
     replicate = (n, v) ->
         return [] if n is 0
-        output = [v]
-        output = output.concat replicate n - 1 , v
+        return [v].concat replicate n - 1, v
 
     generation = (value) -> replicate 3, value
 
     f = doMonad ListMonad, generation, generation
-    f "No God! Please no!"
+    f ["No God! Please no!"]
+
     # [ 'No God! Please no!',
+    #   'No God! Please no!',
+    #   'No God! Please no!',
+    #   'No God! Please no!',
+    #   'No God! Please no!',
+    #   'No God! Please no!',
     #   'No God! Please no!',
     #   'No God! Please no!',
     #   'No God! Please no!' ]
