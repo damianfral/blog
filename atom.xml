@@ -118,9 +118,8 @@ doMonad = (monad, funcs...) -&gt;
         return [value]
 
 
-replicate = (n, v) -&gt;
-    return [] if n is 0
-    return [v].concat replicate n - 1, v
+replicate = (n) -&gt;
+    (v) -&gt; [0...n].map -&gt; v
 
 generation = (value) -&gt; replicate 3, value
 
