@@ -88,7 +88,7 @@ dec = (x) -&gt;
 
 all = chain dec, double, inc
 all 3 # Wrong result: 3. Expected result: null</code></pre>
-<p>In spite of being a better path, you still have to deal with null values or otherwise we will see things like last line of the above code (in JavaScript <em>null</em> plus 1 is 1). You could change previous chaining function in order to be specific for this problem or create new all function that stops running and returns null when a <em>chained</em> function returns null:</p>
+<p>In spite of being a better path, you still have to deal with null values or otherwise we will see things like last line of the above code (in JavaScript <em>null</em> plus 1 is 1). You could change previous chaining function in order to be specific for this problem or create new all function that stops running and returns null when a <em>chained</em> function returns <em>null</em>:</p>
 <pre class="sourceCode Coffeescript"><code>all = (x) -&gt;
     return null if tmp is null
     tmp = inc x
@@ -97,7 +97,7 @@ all 3 # Wrong result: 3. Expected result: null</code></pre>
     return null if tmp is null
     tmp = dec tmp
     return tmp</code></pre>
-<p>There is a clear pattern there; these functions are monadic functions under the maybe-m monad, we can combine them like this <sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>:</p>
+<p>There is a clear pattern there; these functions are monadic functions under the <strong>maybe monad</strong>, we can combine them like this <sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>:</p>
 <pre class="sourceCode Coffeescript"><code>all = doMonad MaybeMonad, inc, double, dec
 all null # null
 all 3    # null
@@ -126,7 +126,7 @@ doMonad = (monad, funcs...) -&gt;
                 return monad.mBind result, -&gt; iterator i + 1
 
         return monad.mBind (monad.mReturn result), -&gt; iterator 0</code></pre>
-<p>What the hell do have we here? It easier than it seems. There is a None variable, a MaybeMonad associative array and a doMonad function. The MaybeMonad has 2 functions.</p>
+<p>What the hell do we have here? It easier than it seems. There is a <em>None</em> variable, a <em>MaybeMonad</em> associative array and a doMonad function. The MaybeMonad has 2 functions.</p>
 <ul>
 <li><p><strong>mReturn</strong> takes a value and transform it (or maybe not).</p></li>
 <li><p><strong>mBind</strong> takes a value (it will be always returned by mReturn) and a function and do some computations to call that function (or maybe not).</p></li>
@@ -143,20 +143,11 @@ doMonad = (monad, funcs...) -&gt;
                 output.push elem
         return output
     else
-        return [value]
-
-
-ListMonad = 
-    mBind: (value, f) -&gt;
-        output = f value
-        return flatten output
-
-    mReturn: (value) -&gt;
         return [value]</code></pre>
-<p>In this case, mBind don’t stops the chained executions, but just flat the returned array received as argument. We can get this:</p>
+<p>In this case, <em>mBind</em> doesn’t stops the chained executions, but just flats the returned array received as argument. We can get this:</p>
 <pre class="sourceCode Coffeescript"><code>ListMonad = 
-    mBind: (value, f) -&gt;
-        output = f value
+    mBind: (list, f) -&gt;
+        output = list.map f
         return flatten output
 
     mReturn: (value) -&gt;
@@ -165,14 +156,19 @@ ListMonad =
 
 replicate = (n, v) -&gt;
     return [] if n is 0
-    output = [v]
-    output = output.concat replicate n - 1 , v
+    return [v].concat replicate n - 1, v
 
 generation = (value) -&gt; replicate 3, value
 
 f = doMonad ListMonad, generation, generation
-f &quot;No God! Please no!&quot;
+f [&quot;No God! Please no!&quot;]
+
 # [ 'No God! Please no!',
+#   'No God! Please no!',
+#   'No God! Please no!',
+#   'No God! Please no!',
+#   'No God! Please no!',
+#   'No God! Please no!',
 #   'No God! Please no!',
 #   'No God! Please no!',
 #   'No God! Please no!' ]</code></pre>
