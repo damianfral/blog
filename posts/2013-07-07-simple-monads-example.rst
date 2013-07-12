@@ -142,7 +142,7 @@ In this case, *mBind* doesn't stops the chained executions, but just flats the r
     replicate = (n) ->
         (v) -> [0...n].map -> v
 
-    generation = (value) -> replicate 3, value
+    generation = (value) -> (replicate 3) value
 
     f = doMonad ListMonad, generation, generation
     f ["No God! Please no!"]
