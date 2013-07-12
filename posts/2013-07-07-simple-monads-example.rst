@@ -72,7 +72,7 @@ There is a clear pattern there; these functions are monadic functions under the 
     all 3    # null
     all 8    # 17
 
-Other languages like Haskell allow this kind of composition without efford. In JavaScript (or CoffeeScript) we have to work a little more to get it:
+Other languages like Haskell allow this kind of composition without effort. In JavaScript (or CoffeeScript) we have to work a little more to get it:
 
 .. code:: Coffeescript
 
