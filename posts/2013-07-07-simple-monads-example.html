@@ -157,7 +157,7 @@ doMonad = (monad, funcs...) -&gt;
 replicate = (n) -&gt;
     (v) -&gt; [0...n].map -&gt; v
 
-generation = (value) -&gt; replicate 3, value
+generation = (value) -&gt; (replicate 3) value
 
 f = doMonad ListMonad, generation, generation
 f [&quot;No God! Please no!&quot;]
