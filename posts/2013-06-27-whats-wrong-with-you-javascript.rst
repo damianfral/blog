@@ -52,9 +52,11 @@ Delaying type-checking to runtime is nice for fast-prototyping and data intensiv
 
 .. raw::  html
 
-    <div class="row">
-        <img src="http://i.imgur.com/tYrpOT3.gif" class="large-6 large-offset-3 columns centered">
-    </div>
+        <div class="Grid-cell Grid-cell--center u-1of3">
+        </div>
+        <div class="Grid-cell Grid-cell--center u-1of3">
+            <img src="http://i.imgur.com/tYrpOT3.gif">
+        </div>
     
 
 Static typing is not the holy grail, but it is **safer**. Haskell guys, as `@EleDiaz`_ , know that if Haskell code compiles, it is almost certain that it will work as expected.
