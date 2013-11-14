@@ -1,68 +1,50 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="row">
-  <head>
-    <link href="atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog ATOM Feed">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <meta name="viewport" content="width=device-width" />
-    <title>
-      Damián Franco Álvarez's blog - What's wrong with you, JavaScript?
-    </title>
-    <link rel="stylesheet" type="text/css" href="../css/syntax.css" />
-    <link rel="stylesheet" type="text/css" href="../css/ostrich-sans.css" />
-    <link rel="stylesheet" type="text/css" href="../css/league-gothic.css" />
-    <link rel="stylesheet" type="text/css" href="../css/crimson.css" />
-    <link rel="stylesheet" type="text/css" href="../css/foundation.css" />
-    <link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="../css/default.css" />
+	<head>
+		<link href="atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog ATOM Feed">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>
+			Damián Franco Álvarez's blog - What's wrong with you, JavaScript?
+		</title>
+		<link rel="stylesheet" type="text/css" href="../css/syntax.css" />
+		<link rel="stylesheet" type="text/css" href="../css/fontfaces.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="../css/grid.css" />
+		<link rel="stylesheet" type="text/css" href="../css/default.css" />
 
-    <script src="../js/zepto.js"></script>
-    <script src="../js/jquery.js"></script>
-    <script src="../js/custom.modernizr.js"></script>
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-42041306-1']);
+			_gaq.push(['_trackPageview']);
+		</script>
 
-    <script type="text/javascript">
-    var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-42041306-1']);
-    _gaq.push(['_trackPageview']);
-  </script>
-
-</script>
-  </head>
-  <body>
-    <div class="row">
-      <div id="wrapper" class="small-12 large-10 large-centered columns">
-        <header class="row">
-          <div class="large-8 small-6 columns">
-            <a id="home" href="../">Damián Franco Álvarez's blog</a>
-          </div>
-
-          <div class="large-4 small-6 columns">
-            <div id="contact-links" class="row">
-              <a class="large-3 small-3 columns" href="https://twitter.com/pamojarpan"><i class="icon-twitter"></i></a>
-              <a class="large-3 small-3 columns" href="https://github.com/damianfral"><i class="icon-github"></i></a>
-              <a class="large-3 small-3 columns" href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
-              <a class="large-3 small-3 columns" href="http://feeds.feedburner.com/damianfral-blog">
-                <i class="icon-rss"></i>
-              </a>
-            </div>
-          </div>
-
-        </header>
-        <hr />
-        <div class="row">
-          <article class="large-12 columns">
-            <h1 class="article-title">
+	</head>
+	<body class="Site">
+		<header>
+			<div class="Grid">
+				<h1 class="Grid-cell u-textCenter">
+					<a id="home" href="../">Damián Franco Álvarez's blog</a>
+				</h1>
+				
+			</div>
+		</header>
+		<main class="Site-content Container">
+			<h1 class="article-title">
 	What's wrong with you, JavaScript?
 </h1>
-<div class="date">
-	Posted on 27/06/2013
-</div>
-<h1>Prototypal Object Orientation</h1>
+
+<article class="Grid u-spaceVS">
+	<div class="date">
+		Posted on 27/06/2013
+	</div>
+	<h1 id="prototypal-object-orientation">Prototypal Object Orientation</h1>
 <p>Class-based object orientation is the most used approach to object orientation. <strong>JavaScript is the only mainstream language that has prototypes</strong>. I don’t want to say which one is better, just that I feel more confortable with classes. JavaScript prototypes can emulate class systems. In fact, there are many libraries for that.</p>
-<h1>Modules and Var declaration</h1>
+<h1 id="modules-and-var-declaration">Modules and Var declaration</h1>
 <p><strong>JavaScript has no formal construct for namespaces</strong>. Module pattern (passing the namespace as an argument to an anonymous self-invoking function) is really helpful. Lexical scope and closures are nice, which allows the module pattern, but something as important as namespaces must be part of the language, don’t you think?</p>
 <p>Another weird behaviour is related to the var keyword. If you declare a variable with var, it will belong to the local scope. If you don’t, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).</p>
-<h1>Syntax</h1>
+<h1 id="syntax">Syntax</h1>
 <p>Event driven code is really common in JavaScript. Usually, if you don’t use promises or some stuffs like <a href="http://noflojs.org/">Flow-Based Programming</a> (FBP), you define a callback that is passed as argument to a function that binds that function to an event, like DOM events in the browser or EventEmitter events in Nodejs. So, when you have a callback that binds another callback to another event that binds another callback to… and enclosed by the module pattern, you will see something like this:</p>
 <pre class="sourceCode Javascript"><code class="sourceCode javascript">(<span class="kw">function</span>() 
 {
@@ -80,16 +62,18 @@
     });
 }).<span class="fu">call</span>(<span class="kw">this</span>);</code></pre>
 <p>I prefer indentation over braces and parenthesis, so the above code looks pretty ugly for me.</p>
-<h1>Dynamic typing and late binding</h1>
+<h1 id="dynamic-typing-and-late-binding">Dynamic typing and late binding</h1>
 <p>Delaying type-checking to runtime is nice for fast-prototyping and data intensive applications (generating types and behaviours based on runtime data). Not so many years ago, JavaScript was used as a toy language to add some animations, form validations and simple stuffs. AJAX changed it all. JavaScript has been growing up since then and nowadays it is used in bigger apps (databases, game engines, communications apps, multimedia apps..) that may have a high cyclomatic complexity. Since JavaScript just checks types and binds names in runtime, a stupid unnoticed error misnaming a variable or a method could slap your face in the worst moment (<em>demo effect</em>).</p>
-<div class="row">
-    <img src="http://i.imgur.com/tYrpOT3.gif" class="large-6 large-offset-3 columns centered">
+<div class="Grid-cell Grid-cell--center u-1of3">
+</div>
+<div class="Grid-cell Grid-cell--center u-1of3">
+    <img src="http://i.imgur.com/tYrpOT3.gif">
 </div>
 <p>Static typing is not the holy grail, but it is <strong>safer</strong>. Haskell guys, as <a href="https://twitter.com/EleDiaz777">@EleDiaz</a> , know that if Haskell code compiles, it is almost certain that it will work as expected.</p>
 <p>And some web applications need performance. Doing some tasks in the compilation time (AOT), can give us, for example, a higher FPS value in our game.</p>
-<h1>Weak typing</h1>
+<h1 id="weak-typing">Weak typing</h1>
 <p>Coercion plus dynamic typing results on a <strong><em>debugging hell</em></strong>. Many JavaScript programmers, I guess, have noticed that debugging JavaScript code is not easy. Many errors are hidden by implicit conversions. It might speed up development (in my opinion, it’s just true in the case of small apps; bigger applications require safety), but it slows down debugging by a higher factor.</p>
-<h1>Surprise behaviour</h1>
+<h1 id="surprise-behaviour">Surprise behaviour</h1>
 <p>JavaScript is a joker. Let’s see:</p>
 <pre class="sourceCode Javascript"><code class="sourceCode javascript"><span class="kw">var</span> a = (<span class="dv">7</span>, <span class="dv">5</span>); <span class="co">// -&gt; a = 5</span>
 <span class="kw">typeof</span>({} + []) <span class="co">// -&gt; &quot;string&quot;</span>
@@ -100,100 +84,61 @@
 <span class="st">&quot;A&quot;</span> &lt; -<span class="kw">Infinity</span>  <span class="co">// false</span></code></pre>
 <p>Despite of the fact that ES 6 has some new proposals to minify or solve these and other <em>problems</em>, there is another path to avoid them: use another programming language that targets JavaScript.</p>
 <p>There are some new languages that try to hide the bad parts adding a syntax sugar layer keeping the JavaScript semantics. Other languages have a completely new syntax and semantics. And there is another option, compilers for <em>old</em> languages that generate JavaScript code.</p>
-<hr />
-<div id="disqus_thread">
-</div>
-<script type="text/javascript">
-        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-        var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
-         /* * * DON'T EDIT BELOW THIS LINE * * */
-         (function() {
-        	var dsq = document.createElement('script');
-        	dsq.type = 'text/javascript';
-        	dsq.async = true;
-        	dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-        	(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-</script>
-<noscript>
-	Please enable JavaScript to view the
-	<a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a>
-</noscript>
-<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-          </article>
-        </div>
-        <hr />
-        <footer class="row">
-          <div class="large-12 columns">
-            Site proudly generated by
-            <a href="http://jaspervdj.be/hakyll">Hakyll</a>
-          </div>
-        </footer>
-      </div>
-    </div>
-    <script>
-        var src, srcs, _i, _len;
-        srcs = document.querySelectorAll("pre.sourceCode");
-        for (_i = 0, _len = srcs.length; _i < _len; _i++) {
-          src = srcs[_i];
-          src.classList.add("panel");
-        }
-    </script>
-    <script src="../js/foundation.min.js">
-            
-    </script>
-    <script src="../js/foundation.js">
-            
-    </script>
-    <script src="../js/foundation.interchange.js">
-            
-    </script>
-    <script src="../js/foundation.dropdown.js">
-            
-    </script>
-    <script src="../js/foundation.placeholder.js">
-            
-    </script>
-    <script src="../js/foundation.forms.js">
-            
-    </script>
-    <script src="../js/foundation.alerts.js">
-            
-    </script>
-    <script src="../js/foundation.magellan.js">
-            
-    </script>
-    <script src="../js/foundation.reveal.js">
-            
-    </script>
-    <script src="../js/foundation.tooltips.js">
-            
-    </script>
-    <script src="../js/foundation.clearing.js">
-            
-    </script>
-    <script src="../js/foundation.cookie.js">
-            
-    </script>
-    <script src="../js/foundation.joyride.js">
-            
-    </script>
-    <script src="../js/foundation.orbit.js">
-            
-    </script>
-    <script src="../js/foundation.section.js">
-            
-    </script>
-    <script src="../js/foundation.topbar.js">
-            
-    </script>
+</article>
+		</main>
+		</div>
 
-    <script type="text/javascript">  (function() {
-      var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
-      ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
-      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-      })();
-   </script>
-  </body>
+		<div id="comments" class="Grid">
+			<div id="disqus_thread" , class="Site-content Container">
+				<script type="text/javascript">
+					/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+					if (/posts/.test(window.location.toString()))
+					{
+						var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
+						 /* * * DON'T EDIT BELOW THIS LINE * * */
+						(function() {
+							var dsq = document.createElement('script');
+							dsq.type = 'text/javascript';
+							dsq.async = true;
+							dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+							(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+						})();
+
+						document.getElementById("comments").style.opacity = "1"
+					};
+						
+				</script>
+			</div>
+		</div>
+		
+
+		<footer>
+			<div class="u-textCenter">
+
+				<div id="contact-links" class="Grid u-textCenter Grid--gutters2x">
+					<a class="Grid-cell" href="https://twitter.com/pamojarpan">
+						<i class="icon-twitter"></i>
+					</a>
+					<a class="Grid-cell" href="https://github.com/damianfral"><i class="icon-github"></i></a>
+					<a class="Grid-cell" href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
+					<a class="Grid-cell" href="http://feeds.feedburner.com/damianfral-blog">
+						<i class="icon-rss"></i>
+					</a>
+						
+				</div>
+				
+			</div>
+		</footer>
+		<script src="../js/custom.modernizr.js"></script>
+		<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+		<script type="text/javascript">  (function() {
+			var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+	 </script>
+	</body>
 
 </html>
