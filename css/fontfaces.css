@@ -1,8 +1,8 @@
 @font-face {
   font-family: "League Gothic Regular";
-  src: url("/fonts/league-gothic-regular.woff");
+  src: url("../fonts/league-gothic-regular.woff");
 }
 @font-face {
   font-family: "Crimson Roman";
-  src: url("/fonts/crimson-roman.woff");
+  src: url("../fonts/crimson-roman.woff");
 }

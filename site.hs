@@ -72,18 +72,18 @@ main = hakyll $ do
 
 	match "templates/*" $ compile templateCompiler
 
-	create ["archive.html"] $ do
-	    route idRoute
-	    compile $ do
-	        let archiveCtx =
-	                field "posts" (\_ -> postList recentFirst) `mappend`
-	                constField "title" "Archives"              `mappend`
-	                defaultContext
+	--create ["archive.html"] $ do
+	--    route idRoute
+	--    compile $ do
+	--        let archiveCtx =
+	--                field "posts" (\_ -> postList recentFirst) `mappend`
+	--                constField "title" "Archives"              `mappend`
+	--                defaultContext
 
-	        makeItem ""
-	            >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-	            >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-	            >>= relativizeUrls
+	--        makeItem ""
+	--            >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
+	--            >>= loadAndApplyTemplate "templates/default.html" archiveCtx
+	--            >>= relativizeUrls
 
 	create ["atom.xml"] $ do
 		route idRoute
