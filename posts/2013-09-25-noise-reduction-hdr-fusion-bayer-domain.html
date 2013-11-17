@@ -42,6 +42,7 @@
 	<h1 id="introduction">Introduction</h1>
 <p>This is a brief post about my final year project in computer engineering. I’ve developed a small command line application to do high dynamic range fusion on RAW images (Bayer domain). I’ve coded it in C++ using <a href="http://halide-lang.org/">Halide</a> and <a href="http://www.libraw.org/">LibRaw</a>.</p>
 <p>This little application takes some RAW files, 2 or more, as input and returns a HDR TIFF image.</p>
+<p>RAWs I’ve used to get the images showed in this post belongs to <a href="http://kelbytraining.com/product/the-hdr-book-unlocking-the-pros-hottest-post-processing-techniques-2/">The HDR Book: Unlocking the Pros Hottest Post-Processing Techniques</a> (I haven’t read it).</p>
 <h1 id="noise-measurement">Noise measurement</h1>
 <p>If we take a photography of an <em>uniform zone</em> with an ideal camera all pixels in the image will have the same value. But the perfect camera does not exist. This image will always have some interference, noise, that will break the uniformity making pixels fluctuate around a value, the mean value. So, we can equate average value with noiseless value and standard deviation with noise. Hence, we can express signal to noise ratio (SNR) this way:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>S</mi><mi>N</mi><mi>R</mi><mo stretchy="false">(</mo><mi>i</mi><mi>m</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>μ</mi><mo stretchy="false">(</mo><mi>i</mi><mi>m</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false">)</mo></mrow><mrow><mi>σ</mi><mo stretchy="false">(</mo><mi>i</mi><mi>m</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow></math></p>
@@ -89,14 +90,13 @@
 	<div class="Grid-cell u-1of2">
 			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
 	</div>
-
  </div>
 <h1 id="tonemapping">Tonemapping</h1>
 <p>This application uses the less exposed photography as reference, so the fusion result has the same look. This way we can avoid the <a href="http://en.wikipedia.org/wiki/Tone_mapping">tonemapping</a> process. Nevertheless, by applying a tonemapping operator we can get a better result if the less exposed image is <em>too</em> underexposed. Anyway, this application does not include a tonemapping option, but the user could use an external tool like <a href="http://pfstools.sourceforge.net/pfstmo.html">pfstmo</a>.</p>
 <h1 id="next-steps">Next steps</h1>
 <p>I may open source this application in the future. But, firstly, I want to change some parts an fix some bugs. If someone want me to explain this project more deeply or something about digital photography or image processing, just ask it.</p>
 <h1 id="thanks">Thanks</h1>
-<p>I would like to thank some people for their support. In the first place, I want to express my gratitude to my girlfriend, <a href="https://twitter.com/angelagesteiras">Ángela</a>, for all those hours in the library and for her help. Next, I want to mention <a href="http://www.guillermoluijk.com/">Guillermo Luijk</a>, his work on digital photography is the base of this project. I also want to thank <a href="https://twitter.com/quobis">Quobis</a>, the company I work for (they have been unselfish and gave me the posibility to shift my working schedule), and my friends <a href="https://twitter.com/ATuin">Aitor</a> and <a href="https://twitter.com/EleDiaz777">Eleazar</a> for encouraging me.</p>
+<p>I would like to thank some people for their support. In the first place, I want to express my gratitude to my girlfriend, <a href="https://twitter.com/angelagesteiras">Ángela</a>, for all those hours in the library and for her photographies, advices and help. Next, I want to mention <a href="http://www.guillermoluijk.com/">Guillermo Luijk</a>, his work on digital photography is the base of this project. I also want to thank <a href="https://twitter.com/quobis">Quobis</a>, the company I work for (they have been unselfish and gave me the posibility to shift my working schedule), and my friends <a href="https://twitter.com/ATuin">Aitor</a> and <a href="https://twitter.com/EleDiaz777">Eleazar</a> for encouraging me.</p>
 </article>
 		</main>
 		</div>
