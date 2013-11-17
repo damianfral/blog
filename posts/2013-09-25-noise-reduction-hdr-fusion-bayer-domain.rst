@@ -14,6 +14,9 @@ using `Halide <http://halide-lang.org/>`__ and
 This little application takes some RAW files, 2 or more, as input and
 returns a HDR TIFF image.
 
+RAWs I've used to get the images showed in this post belongs to `The HDR Book: Unlocking the Pros Hottest Post-Processing Techniques <http://kelbytraining.com/product/the-hdr-book-unlocking-the-pros-hottest-post-processing-techniques-2/>`__ (I haven't read it).
+
+
 Noise measurement
 -----------------
 
@@ -129,7 +132,6 @@ with a high exposure level difference.
 		<div class="Grid-cell u-1of2">
 				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
 		</div>
-
 	 </div>
 
 
@@ -159,7 +161,7 @@ Thanks
 I would like to thank some people for their support. In the first place,
 I want to express my gratitude to my girlfriend,
 `Ángela <https://twitter.com/angelagesteiras>`__, for all those hours in
-the library and for her help. Next, I want to mention `Guillermo
+the library and for her photographies, advices and help. Next, I want to mention `Guillermo
 Luijk <http://www.guillermoluijk.com/>`__, his work on digital
 photography is the base of this project. I also want to thank
 `Quobis <https://twitter.com/quobis>`__, the company I work for (they
