@@ -8,8 +8,78 @@
         <name>Damián Franco Álvarez</name>
         <email>huevofritopamojarpan@gmail.com</email>
     </author>
-    <updated>2013-09-25T00:00:00Z</updated>
+    <updated>2013-12-30T00:00:00Z</updated>
     <entry>
+    <title>A command-line todo list manager written in Haskell</title>
+    <link href="http://damianfral.github.io/blog/posts/2013-12-30-th.html" />
+    <id>http://damianfral.github.io/blog/posts/2013-12-30-th.html</id>
+    <published>2013-12-30T00:00:00Z</published>
+    <updated>2013-12-30T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<h1 class="article-title">
+	A command-line todo list manager written in Haskell
+</h1>
+
+<article class="Grid u-spaceVS">
+	<div class="date">
+		Posted on 30/12/2013
+	</div>
+	<h1 id="th">th</h1>
+<p>th is a command-line todo list manager in the style of <a href="http://stevelosh.com/projects/t/">t</a> written in Haskell.</p>
+<p>th shares with <a href="http://stevelosh.com/projects/t/">t</a> the same features:</p>
+<ul>
+<li>It’s simple.</li>
+<li>It just uses a <em>human readable</em> plain file.</li>
+<li>It works nicely with Dropbox, control version systems and shell scripts.</li>
+</ul>
+<h2 id="installing-th">Installing th</h2>
+<p>th requires <a href="http://www.haskell.org/platform/index.html">Haskell Platform</a> and a UNIX-like shell (I use zsh). It may work on Linux, OS X and Windows (using <a href="http://www.cygwin.com/">Cygwin</a>).</p>
+<p>Once you have installed <a href="http://www.haskell.org/platform/index.html">Haskell Platform</a>, you have to <a href="https://github.com/damianfral/th/archive/master.zip">download</a> the latest version or clone the repository using git, <code>git clone https://github.com/damianfral/th.git</code>.</p>
+<p>Having the repository downloaded/clone, you just need to execute <code>cabal install</code>. You may set up your path to be able to access <code>~/.cabal/bin/</code> without the absolute path.</p>
+<h2 id="using-th">Using th</h2>
+<p>You can execute <code>th -h</code> to show the usage information:</p>
+<pre><code>&gt; th -h
+
+Usage: th [OPTION...]
+  -v, -V       --version          Show the version of th
+  -h, -H       --help             Show help for th
+  -c TASKNAME  --create=TASKNAME  Create a new task
+  -s TASKID    --start=TASKID     Mark task as started
+  -f TASKID    --finish=TASKID    Mark task as finished
+  -d TASKID    --delete=TASKID    Delete task
+  -l FILENAME  --list=FILENAME    Use this file as the task list</code></pre>
+<p>By default, if you don’t specify a file with <code>--list</code>, th will use <code>todo.txt</code>.</p>
+<p>Each task can be in one of these 3 states: <em>not done</em>, <em>started</em>, <em>finish</em>.</p>
+<h3 id="create-tasks">Create tasks</h3>
+<pre><code>&gt; th -c &quot;Release version v1.6&quot;
+
+1 - [ ] Release version v1.6
+
+
+&gt; th -c &quot;Review open issues&quot;
+
+1 - [ ] Release version v1.6
+2 - [ ] Review open issues</code></pre>
+<h3 id="startfinish-a-task">Start/Finish a task</h3>
+<pre><code>&gt; th -s 1
+
+1 - [-] Release version v1.6
+2 - [ ] Review open issues
+
+&gt; th -f 1
+
+1 - [x] Release version v1.6
+2 - [ ] Review open issues</code></pre>
+<h3 id="delete-a-task">Delete a task</h3>
+<pre><code>&gt; th -d 1
+
+1 - [ ] Review open issues</code></pre>
+<h3 id="show-tasks">Show tasks</h3>
+<pre><code>&gt; th
+
+1 - [ ] Review open issues</code></pre>
+</article>]]></summary>
+</entry>
+<entry>
     <title>Noise reduction in images through HDR fusion in the Bayer domain</title>
     <link href="http://damianfral.github.io/blog/posts/2013-09-25-noise-reduction-hdr-fusion-bayer-domain.html" />
     <id>http://damianfral.github.io/blog/posts/2013-09-25-noise-reduction-hdr-fusion-bayer-domain.html</id>

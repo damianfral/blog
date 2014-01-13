@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="row">
+	<head>
+		<link href="../blog/atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog ATOM Feed">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>
+			Damián Franco Álvarez's blog - A command-line todo list manager written in Haskell
+		</title>
+		<link rel="stylesheet" type="text/css" href="../css/syntax.css" />
+		<link rel="stylesheet" type="text/css" href="../css/fontfaces.css" />
+		<link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
+		<link rel="stylesheet" type="text/css" href="../css/grid.css" />
+		<link rel="stylesheet" type="text/css" href="../css/default.css" />
+
+		<script type="text/javascript">
+			var _gaq = _gaq || [];
+			_gaq.push(['_setAccount', 'UA-42041306-1']);
+			_gaq.push(['_trackPageview']);
+		</script>
+
+	</head>
+	<body class="Site">
+		<header>
+			<div class="Grid">
+				<h1 class="Grid-cell u-textCenter">
+					<a id="home" href="../">Damián Franco Álvarez's blog</a>
+				</h1>
+				
+			</div>
+		</header>
+		<main class="Site-content Container">
+			<h1 class="article-title">
+	A command-line todo list manager written in Haskell
+</h1>
+
+<article class="Grid u-spaceVS">
+	<div class="date">
+		Posted on 30/12/2013
+	</div>
+	<h1 id="th">th</h1>
+<p>th is a command-line todo list manager in the style of <a href="http://stevelosh.com/projects/t/">t</a> written in Haskell.</p>
+<p>th shares with <a href="http://stevelosh.com/projects/t/">t</a> the same features:</p>
+<ul>
+<li>It’s simple.</li>
+<li>It just uses a <em>human readable</em> plain file.</li>
+<li>It works nicely with Dropbox, control version systems and shell scripts.</li>
+</ul>
+<h2 id="installing-th">Installing th</h2>
+<p>th requires <a href="http://www.haskell.org/platform/index.html">Haskell Platform</a> and a UNIX-like shell (I use zsh). It may work on Linux, OS X and Windows (using <a href="http://www.cygwin.com/">Cygwin</a>).</p>
+<p>Once you have installed <a href="http://www.haskell.org/platform/index.html">Haskell Platform</a>, you have to <a href="https://github.com/damianfral/th/archive/master.zip">download</a> the latest version or clone the repository using git, <code>git clone https://github.com/damianfral/th.git</code>.</p>
+<p>Having the repository downloaded/clone, you just need to execute <code>cabal install</code>. You may set up your path to be able to access <code>~/.cabal/bin/</code> without the absolute path.</p>
+<h2 id="using-th">Using th</h2>
+<p>You can execute <code>th -h</code> to show the usage information:</p>
+<pre><code>&gt; th -h
+
+Usage: th [OPTION...]
+  -v, -V       --version          Show the version of th
+  -h, -H       --help             Show help for th
+  -c TASKNAME  --create=TASKNAME  Create a new task
+  -s TASKID    --start=TASKID     Mark task as started
+  -f TASKID    --finish=TASKID    Mark task as finished
+  -d TASKID    --delete=TASKID    Delete task
+  -l FILENAME  --list=FILENAME    Use this file as the task list</code></pre>
+<p>By default, if you don’t specify a file with <code>--list</code>, th will use <code>todo.txt</code>.</p>
+<p>Each task can be in one of these 3 states: <em>not done</em>, <em>started</em>, <em>finish</em>.</p>
+<h3 id="create-tasks">Create tasks</h3>
+<pre><code>&gt; th -c &quot;Release version v1.6&quot;
+
+1 - [ ] Release version v1.6
+
+
+&gt; th -c &quot;Review open issues&quot;
+
+1 - [ ] Release version v1.6
+2 - [ ] Review open issues</code></pre>
+<h3 id="startfinish-a-task">Start/Finish a task</h3>
+<pre><code>&gt; th -s 1
+
+1 - [-] Release version v1.6
+2 - [ ] Review open issues
+
+&gt; th -f 1
+
+1 - [x] Release version v1.6
+2 - [ ] Review open issues</code></pre>
+<h3 id="delete-a-task">Delete a task</h3>
+<pre><code>&gt; th -d 1
+
+1 - [ ] Review open issues</code></pre>
+<h3 id="show-tasks">Show tasks</h3>
+<pre><code>&gt; th
+
+1 - [ ] Review open issues</code></pre>
+</article>
+		</main>
+		</div>
+
+		<div id="comments" class="Grid">
+			<div id="disqus_thread" , class="Site-content Container">
+				<script type="text/javascript">
+					/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+					if (/posts/.test(window.location.toString()))
+					{
+						var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
+						 /* * * DON'T EDIT BELOW THIS LINE * * */
+						(function() {
+							var dsq = document.createElement('script');
+							dsq.type = 'text/javascript';
+							dsq.async = true;
+							dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+							(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+						})();
+
+						document.getElementById("comments").style.opacity = "1"
+					};
+						
+				</script>
+			</div>
+		</div>
+		
+
+		<footer>
+			<div class="u-textCenter">
+
+				<div id="contact-links" class="Grid u-textCenter Grid--gutters2x">
+					<a class="Grid-cell" href="https://twitter.com/pamojarpan">
+						<i class="icon-twitter"></i>
+					</a>
+					<a class="Grid-cell" href="https://github.com/damianfral"><i class="icon-github"></i></a>
+					<a class="Grid-cell" href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
+					<a class="Grid-cell" href="http://feeds.feedburner.com/damianfral-blog">
+						<i class="icon-rss"></i>
+					</a>
+						
+				</div>
+				
+			</div>
+		</footer>
+		<script src="../js/custom.modernizr.js"></script>
+		<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+
+
+		<script type="text/javascript">  (function() {
+			var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
+	 </script>
+	</body>
+
+</html>
