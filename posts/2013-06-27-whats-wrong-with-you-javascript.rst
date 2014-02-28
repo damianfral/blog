@@ -1,7 +1,7 @@
-----
+---
 title: What's wrong with you, JavaScript?
 tags: javascript, javascript problems, javascript object orientation, javascript POO, javascript prototypes, javascript modules, dynamic typing, static typing, weak typing, strong typing, late binding, early binding
-----
+---
 
 .. We can't escape from JavaScript. It's the language of the web.
 
