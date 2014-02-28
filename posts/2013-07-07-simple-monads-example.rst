@@ -1,7 +1,7 @@
-----
+---
 title: Simple Monads Example (CoffeeScript)
 tags: javascript, coffeescript, coffee-script, monad, monads, maybe monad, simple monad example, simple monad, functional programming
-----
+---
 
 This article is based on `Why use monads`_.
 
