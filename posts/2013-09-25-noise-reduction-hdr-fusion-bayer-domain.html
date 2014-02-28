@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="row">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<link href="../blog/atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog ATOM Feed">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width" />
 		<title>
 			Damián Franco Álvarez's blog - Noise reduction in images through HDR fusion in the Bayer domain
 		</title>
+
+		<meta name="keywords" content="hdr, high dynamic range, hdr fusion, high dynamic range fusion, noise, noise reduction, noise measurement, image processing, raw, camera, photography, tonemapping, signal noise ratio, snr">
+
+		<link href="../atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog - ATOM Feed">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+
 		<link rel="stylesheet" type="text/css" href="../css/syntax.css" />
 		<link rel="stylesheet" type="text/css" href="../css/fontfaces.css" />
 		<link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
-		<link rel="stylesheet" type="text/css" href="../css/grid.css" />
 		<link rel="stylesheet" type="text/css" href="../css/default.css" />
 
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-42041306-1']);
 			_gaq.push(['_trackPageview']);
+			(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
 		</script>
 
 	</head>
-	<body class="Site">
+	<body class="flex-column">
 		<header>
-			<div class="Grid">
-				<h1 class="Grid-cell u-textCenter">
+				<h1>
 					<a id="home" href="../">Damián Franco Álvarez's blog</a>
 				</h1>
-				
-			</div>
 		</header>
-		<main class="Site-content Container">
+		<main class="flex-cell">
 			<h1 class="article-title">
 	Noise reduction in images through HDR fusion in the Bayer domain
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 25/09/2013
 	</div>
@@ -56,40 +61,38 @@
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>m</mi><mi>a</mi><mi>p</mi><mo stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mi>o</mi><mi>v</mi><mi>e</mi><mi>r</mi><mi>e</mi><mi>x</mi><mi>p</mi><mi>o</mi><mi>s</mi><mi>e</mi><mi>d</mi><mo stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>≤</mo><mo stretchy="false">(</mo><mi>s</mi><mi>a</mi><mi>t</mi><mi>u</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo>⋅</mo><mi>t</mi><mi>h</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>h</mi><mi>o</mi><mi>l</mi><mi>d</mi><mo stretchy="false">)</mo></mrow></math></p>
 <p>The above formula has a threshold value between 0 and 1 to take more (higher threshold) or less (lower value) highlights from de overexposed image. The binarized image is blurred with Guassian kernel to avoid sudden transitions in the final image.</p>
 <p>Extending this process to support more than two images is pretty simple.</p>
-<div class="Grid Grid--gutters">
-	<div class="Grid-cell u-1of3">
-			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-0EV.jpeg">
+<div class="flex-row flex-images">
+
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-0EV.jpeg">
 	</div>
-	<div class="Grid-cell u-1of3">
-			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-2EV.jpeg">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-2EV.jpeg">
 	</div>
-	<div class="Grid-cell u-1of3">
-			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-4EV.jpeg">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-4EV.jpeg">
 	</div>
 </div>
 
-<div class="Grid Grid--gutters">
-
-	<div class="Grid-cell u-1of2">
-			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/map7.jpeg">
+<div class="flex-row flex-images">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/map7.jpeg">
 	</div>
-	<div class="Grid-cell u-1of2">
-			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-tm.jpeg">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-tm.jpeg">
 	</div>
-
  </div>
 <h1 id="bayer-domain">Bayer Domain</h1>
 <p>There is a diference between my application and common approaches, it uses directly RAW images. A RAW image contains only one channel per pixel (R,G or B). So, while other aplications use raster images, which have one real and two interpolated channels, this application only works with real data. This way, the performance may be improved.</p>
 <h1 id="noise-reduction">Noise reduction</h1>
 <p>The level of noise reduction depends on the exposure schema. A scheme like [0 EV, +3 EV, +6 EV] works pretty well. A wider exposure scheme can increase the noise reduction, but it could generate artifacts (visible fusion borders) due to the difference SNR between pixels from photos with a high exposure level difference.</p>
-<div class="Grid Grid--gutters">
-
-	<div class="Grid-cell u-1of2">
-			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/0EV-detail.jpeg">
+<div class="flex-row flex-images">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/0EV-detail.jpeg">
 	</div>
-	<div class="Grid-cell u-1of2">
-			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
-	</div>
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
+ 	</div>
  </div>
 <h1 id="tonemapping">Tonemapping</h1>
 <p>This application uses the less exposed photography as reference, so the fusion result has the same look. This way we can avoid the <a href="http://en.wikipedia.org/wiki/Tone_mapping">tonemapping</a> process. Nevertheless, by applying a tonemapping operator we can get a better result if the less exposed image is <em>too</em> underexposed. Anyway, this application does not include a tonemapping option, but the user could use an external tool like <a href="http://pfstools.sourceforge.net/pfstmo.html">pfstmo</a>.</p>
@@ -99,59 +102,48 @@
 <p>I would like to thank some people for their support. In the first place, I want to express my gratitude to my girlfriend, <a href="https://twitter.com/angelagesteiras">Ángela</a>, for all those hours in the library and for her photographies, advices and help. Next, I want to mention <a href="http://www.guillermoluijk.com/">Guillermo Luijk</a>, his work on digital photography is the base of this project. I also want to thank <a href="https://twitter.com/quobis">Quobis</a>, the company I work for (they have been unselfish and gave me the posibility to shift my working schedule), and my friends <a href="https://twitter.com/ATuin">Aitor</a> and <a href="https://twitter.com/EleDiaz777">Eleazar</a> for encouraging me.</p>
 </article>
 		</main>
-		</div>
-
-		<div id="comments" class="Grid">
-			<div id="disqus_thread" , class="Site-content Container">
+		<div id="comments">
+			<div id="disqus_thread">
 				<script type="text/javascript">
 					/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-					if (/posts/.test(window.location.toString()))
-					{
-						var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
-						 /* * * DON'T EDIT BELOW THIS LINE * * */
-						(function() {
-							var dsq = document.createElement('script');
-							dsq.type = 'text/javascript';
-							dsq.async = true;
-							dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-							(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-						})();
+						if (/posts/.test(window.location.toString()))
+						{
+							document.getElementById("comments").style.display = "block"
+							var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
+							 /* * * DON'T EDIT BELOW THIS LINE * * */
+							(function() {
+								var dsq = document.createElement('script');
+								dsq.type = 'text/javascript';
+								dsq.async = true;
+								dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+								(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+							})();
 
-						document.getElementById("comments").style.opacity = "1"
-					};
-						
+							document.getElementById("comments").style.opacity = "1"
+						};
+
 				</script>
 			</div>
 		</div>
-		
 
-		<footer>
-			<div class="u-textCenter">
-
-				<div id="contact-links" class="Grid u-textCenter Grid--gutters2x">
-					<a class="Grid-cell" href="https://twitter.com/pamojarpan">
-						<i class="icon-twitter"></i>
-					</a>
-					<a class="Grid-cell" href="https://github.com/damianfral"><i class="icon-github"></i></a>
-					<a class="Grid-cell" href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
-					<a class="Grid-cell" href="http://feeds.feedburner.com/damianfral-blog">
-						<i class="icon-rss"></i>
-					</a>
-						
-				</div>
-				
+		<footer class="flex-row">
+			<div id="social" class="flex-cell">
+				<a href="https://twitter.com/pamojarpan">
+					<i class="icon-twitter"></i>
+				</a>
+				<a href="https://github.com/damianfral"><i class="icon-github"></i></a>
+				<a href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
+				<a href="http://feeds.feedburner.com/damianfral-blog">
+					<i class="icon-rss"></i>
+				</a>
 			</div>
+			<a id="license" class="flex-cell" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+					<img alt="Creative Commons License" style="border-width:0" src="http://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-sa.svg" />
+				</a>
 		</footer>
 		<script src="../js/custom.modernizr.js"></script>
 		<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
-
-		<script type="text/javascript">  (function() {
-			var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-	 </script>
 	</body>
 
 </html>

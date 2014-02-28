@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="row">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<link href="../blog/atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog ATOM Feed">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width" />
 		<title>
 			Damián Franco Álvarez's blog - What's wrong with you, JavaScript?
 		</title>
+
+		<meta name="keywords" content="javascript, javascript problems, javascript object orientation, javascript POO, javascript prototypes, javascript modules, dynamic typing, static typing, weak typing, strong typing, late binding, early binding">
+
+		<link href="../atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog - ATOM Feed">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+
 		<link rel="stylesheet" type="text/css" href="../css/syntax.css" />
 		<link rel="stylesheet" type="text/css" href="../css/fontfaces.css" />
 		<link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
-		<link rel="stylesheet" type="text/css" href="../css/grid.css" />
 		<link rel="stylesheet" type="text/css" href="../css/default.css" />
 
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-42041306-1']);
 			_gaq.push(['_trackPageview']);
+			(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
 		</script>
 
 	</head>
-	<body class="Site">
+	<body class="flex-column">
 		<header>
-			<div class="Grid">
-				<h1 class="Grid-cell u-textCenter">
+				<h1>
 					<a id="home" href="../">Damián Franco Álvarez's blog</a>
 				</h1>
-				
-			</div>
 		</header>
-		<main class="Site-content Container">
+		<main class="flex-cell">
 			<h1 class="article-title">
 	What's wrong with you, JavaScript?
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 27/06/2013
 	</div>
@@ -46,15 +51,15 @@
 <p>Another weird behaviour is related to the var keyword. If you declare a variable with var, it will belong to the local scope. If you don’t, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).</p>
 <h1 id="syntax">Syntax</h1>
 <p>Event driven code is really common in JavaScript. Usually, if you don’t use promises or some stuffs like <a href="http://noflojs.org/">Flow-Based Programming</a> (FBP), you define a callback that is passed as argument to a function that binds that function to an event, like DOM events in the browser or EventEmitter events in Nodejs. So, when you have a callback that binds another callback to another event that binds another callback to… and enclosed by the module pattern, you will see something like this:</p>
-<pre class="sourceCode Javascript"><code class="sourceCode javascript">(<span class="kw">function</span>() 
+<pre class="sourceCode Javascript"><code class="sourceCode javascript">(<span class="kw">function</span>()
 {
-    <span class="fu">$</span>(<span class="st">&quot;#my-button1&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg1) 
+    <span class="fu">$</span>(<span class="st">&quot;#my-button1&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg1)
     {
         <span class="fu">alert</span>(msg1);
         <span class="fu">$</span>(<span class="st">&quot;#my-button2&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg2)
         {
             <span class="fu">alert</span>(msg2);
-            <span class="fu">$</span>(<span class="st">&quot;#my-button3&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg3) 
+            <span class="fu">$</span>(<span class="st">&quot;#my-button3&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg3)
             {
                 <span class="fu">alert</span>(msg3);
             });
@@ -64,9 +69,7 @@
 <p>I prefer indentation over braces and parenthesis, so the above code looks pretty ugly for me.</p>
 <h1 id="dynamic-typing-and-late-binding">Dynamic typing and late binding</h1>
 <p>Delaying type-checking to runtime is nice for fast-prototyping and data intensive applications (generating types and behaviours based on runtime data). Not so many years ago, JavaScript was used as a toy language to add some animations, form validations and simple stuffs. AJAX changed it all. JavaScript has been growing up since then and nowadays it is used in bigger apps (databases, game engines, communications apps, multimedia apps..) that may have a high cyclomatic complexity. Since JavaScript just checks types and binds names in runtime, a stupid unnoticed error misnaming a variable or a method could slap your face in the worst moment (<em>demo effect</em>).</p>
-<div class="Grid-cell Grid-cell--center u-1of3">
-</div>
-<div class="Grid-cell Grid-cell--center u-1of3">
+<div class="flex-images">
     <img src="http://i.imgur.com/tYrpOT3.gif">
 </div>
 <p>Static typing is not the holy grail, but it is <strong>safer</strong>. Haskell guys, as <a href="https://twitter.com/EleDiaz777">@EleDiaz</a> , know that if Haskell code compiles, it is almost certain that it will work as expected.</p>
@@ -86,59 +89,48 @@
 <p>There are some new languages that try to hide the bad parts adding a syntax sugar layer keeping the JavaScript semantics. Other languages have a completely new syntax and semantics. And there is another option, compilers for <em>old</em> languages that generate JavaScript code.</p>
 </article>
 		</main>
-		</div>
-
-		<div id="comments" class="Grid">
-			<div id="disqus_thread" , class="Site-content Container">
+		<div id="comments">
+			<div id="disqus_thread">
 				<script type="text/javascript">
 					/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-					if (/posts/.test(window.location.toString()))
-					{
-						var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
-						 /* * * DON'T EDIT BELOW THIS LINE * * */
-						(function() {
-							var dsq = document.createElement('script');
-							dsq.type = 'text/javascript';
-							dsq.async = true;
-							dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-							(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-						})();
+						if (/posts/.test(window.location.toString()))
+						{
+							document.getElementById("comments").style.display = "block"
+							var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
+							 /* * * DON'T EDIT BELOW THIS LINE * * */
+							(function() {
+								var dsq = document.createElement('script');
+								dsq.type = 'text/javascript';
+								dsq.async = true;
+								dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+								(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+							})();
 
-						document.getElementById("comments").style.opacity = "1"
-					};
-						
+							document.getElementById("comments").style.opacity = "1"
+						};
+
 				</script>
 			</div>
 		</div>
-		
 
-		<footer>
-			<div class="u-textCenter">
-
-				<div id="contact-links" class="Grid u-textCenter Grid--gutters2x">
-					<a class="Grid-cell" href="https://twitter.com/pamojarpan">
-						<i class="icon-twitter"></i>
-					</a>
-					<a class="Grid-cell" href="https://github.com/damianfral"><i class="icon-github"></i></a>
-					<a class="Grid-cell" href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
-					<a class="Grid-cell" href="http://feeds.feedburner.com/damianfral-blog">
-						<i class="icon-rss"></i>
-					</a>
-						
-				</div>
-				
+		<footer class="flex-row">
+			<div id="social" class="flex-cell">
+				<a href="https://twitter.com/pamojarpan">
+					<i class="icon-twitter"></i>
+				</a>
+				<a href="https://github.com/damianfral"><i class="icon-github"></i></a>
+				<a href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
+				<a href="http://feeds.feedburner.com/damianfral-blog">
+					<i class="icon-rss"></i>
+				</a>
 			</div>
+			<a id="license" class="flex-cell" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+					<img alt="Creative Commons License" style="border-width:0" src="http://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-sa.svg" />
+				</a>
 		</footer>
 		<script src="../js/custom.modernizr.js"></script>
 		<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
-
-		<script type="text/javascript">  (function() {
-			var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-	 </script>
 	</body>
 
 </html>

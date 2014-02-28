@@ -19,7 +19,7 @@
 	Alternatives to JavaScript (I)
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 18/01/2014
 	</div>
@@ -38,7 +38,7 @@
 </blockquote>
 <p>CoffeeScript is just a syntactic sugar layer over JavaScript inspired, mostly, by Python and Ruby. Hence, it’s just another syntax for writting JavaScript code. It avoids some JavaScript pitfalls and adds some features like <em>sort of</em> object-oriented programming via classes, implicit returns, list comprehensions or postfix operators for loops and conditionals.</p>
 <p>Its main advantage is, at the same time, its bigger drawback: it’s just a saner way to write JavaScript code, but it’s JavaScript. Actually, the golden rule of CoffeeScript is <em>It’s just JavaScript</em>.</p>
-<p>It is worth pointing out there a good bunch of CoffeeScript forks and dialects with different goals like <a href="https://github.com/satyr/coco">Coco</a>, that aims to be more radical, or IcedCoffeeScript_, which is a superset of CoffeeScript that adds some keywords to deal with asynchronows control flow.</p>
+<p>It is worth pointing out there a good bunch of CoffeeScript forks and dialects with different goals like <a href="https://github.com/satyr/coco">Coco</a>, that aims to be more radical, or <a href="http://maxtaco.github.io/coffee-script/">IcedCoffeeScript</a>, which is a superset of CoffeeScript that adds some keywords to deal with asynchronows control flow.</p>
 <h2 id="typescript">TypeScript</h2>
 <p><a href="http://www.typescriptlang.org/">TypeScript</a> is a Microsoft project that adds structural typing on top of JavaScript:</p>
 <blockquote>
@@ -73,7 +73,7 @@
 	A command-line todo list manager written in Haskell
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 30/12/2013
 	</div>
@@ -143,7 +143,7 @@ Usage: th [OPTION...]
 	Noise reduction in images through HDR fusion in the Bayer domain
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 25/09/2013
 	</div>
@@ -155,7 +155,7 @@ Usage: th [OPTION...]
 <p>If we take a photography of an <em>uniform zone</em> with an ideal camera all pixels in the image will have the same value. But the perfect camera does not exist. This image will always have some interference, noise, that will break the uniformity making pixels fluctuate around a value, the mean value. So, we can equate average value with noiseless value and standard deviation with noise. Hence, we can express signal to noise ratio (SNR) this way:</p>
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>S</mi><mi>N</mi><mi>R</mi><mo stretchy="false">(</mo><mi>i</mi><mi>m</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>μ</mi><mo stretchy="false">(</mo><mi>i</mi><mi>m</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false">)</mo></mrow><mrow><mi>σ</mi><mo stretchy="false">(</mo><mi>i</mi><mi>m</mi><mi>a</mi><mi>g</mi><mi>e</mi><mo stretchy="false">)</mo></mrow></mfrac></mrow></math></p>
 <p>We can meassure the SNR for different relative exposures by taking some pictures to an uniform zone (using the manual focus to blur the image in order to avoid textures) with different exposure times.</p>
-<p><img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/snr.png" /></p>
+<p><img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/snr.png" /></p>
 <h1 id="hdr-fusion">HDR fusion</h1>
 <p>Reading the previous chart we realize we need to increase exposure, <a href="http://en.wikipedia.org/wiki/Exposing_to_the_right">exposing to the right</a> if we want to get less noise. But there is a limit, the saturation point. This is the point at which it can no longer generate new electrons for additional photon strikes.</p>
 <p>We could take two photos, one well-exposed and another one overexposed. The well-exposed picture will have detail in the highlights but more noise than the overexposed picture. The overexposed image will have the opposite features, much less noise and saturated highlights. Equalising the exposure level and taking the best parts of each image (the highlight from the well-exposed picture, the non-saturated parts form the overexposed one) we can get a image with higher dynamic range and less noise. This is called High Dynamic Range fusion.</p>
@@ -164,40 +164,38 @@ Usage: th [OPTION...]
 <p><math display="block" xmlns="http://www.w3.org/1998/Math/MathML"><mrow><mi>m</mi><mi>a</mi><mi>p</mi><mo stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mi>o</mi><mi>v</mi><mi>e</mi><mi>r</mi><mi>e</mi><mi>x</mi><mi>p</mi><mi>o</mi><mi>s</mi><mi>e</mi><mi>d</mi><mo stretchy="false">(</mo><mi>x</mi><mo>,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>≤</mo><mo stretchy="false">(</mo><mi>s</mi><mi>a</mi><mi>t</mi><mi>u</mi><mi>r</mi><mi>a</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi><mo>⋅</mo><mi>t</mi><mi>h</mi><mi>r</mi><mi>e</mi><mi>s</mi><mi>h</mi><mi>o</mi><mi>l</mi><mi>d</mi><mo stretchy="false">)</mo></mrow></math></p>
 <p>The above formula has a threshold value between 0 and 1 to take more (higher threshold) or less (lower value) highlights from de overexposed image. The binarized image is blurred with Guassian kernel to avoid sudden transitions in the final image.</p>
 <p>Extending this process to support more than two images is pretty simple.</p>
-<div class="Grid Grid--gutters">
-	<div class="Grid-cell u-1of3">
-			<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-0EV.jpeg">
+<div class="flex-row flex-images">
+
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-0EV.jpeg">
 	</div>
-	<div class="Grid-cell u-1of3">
-			<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-2EV.jpeg">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-2EV.jpeg">
 	</div>
-	<div class="Grid-cell u-1of3">
-			<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-4EV.jpeg">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-4EV.jpeg">
 	</div>
 </div>
 
-<div class="Grid Grid--gutters">
-
-	<div class="Grid-cell u-1of2">
-			<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/map7.jpeg">
+<div class="flex-row flex-images">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/map7.jpeg">
 	</div>
-	<div class="Grid-cell u-1of2">
-			<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-tm.jpeg">
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-tm.jpeg">
 	</div>
-
  </div>
 <h1 id="bayer-domain">Bayer Domain</h1>
 <p>There is a diference between my application and common approaches, it uses directly RAW images. A RAW image contains only one channel per pixel (R,G or B). So, while other aplications use raster images, which have one real and two interpolated channels, this application only works with real data. This way, the performance may be improved.</p>
 <h1 id="noise-reduction">Noise reduction</h1>
 <p>The level of noise reduction depends on the exposure schema. A scheme like [0 EV, +3 EV, +6 EV] works pretty well. A wider exposure scheme can increase the noise reduction, but it could generate artifacts (visible fusion borders) due to the difference SNR between pixels from photos with a high exposure level difference.</p>
-<div class="Grid Grid--gutters">
-
-	<div class="Grid-cell u-1of2">
-			<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/0EV-detail.jpeg">
+<div class="flex-row flex-images">
+	<div>
+		<img 	src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/0EV-detail.jpeg">
 	</div>
-	<div class="Grid-cell u-1of2">
-			<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
-	</div>
+	<div>
+		<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
+ 	</div>
  </div>
 <h1 id="tonemapping">Tonemapping</h1>
 <p>This application uses the less exposed photography as reference, so the fusion result has the same look. This way we can avoid the <a href="http://en.wikipedia.org/wiki/Tone_mapping">tonemapping</a> process. Nevertheless, by applying a tonemapping operator we can get a better result if the less exposed image is <em>too</em> underexposed. Anyway, this application does not include a tonemapping option, but the user could use an external tool like <a href="http://pfstools.sourceforge.net/pfstmo.html">pfstmo</a>.</p>
@@ -217,13 +215,13 @@ Usage: th [OPTION...]
 	Simple Monads Example (CoffeeScript)
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 07/07/2013
 	</div>
 	<p>This article is based on <a href="http://www.intensivesystems.net/tutorials/why_monads.html">Why use monads</a>.</p>
 <p>Suppose you have some functions that take a number and answer another number or <em>null</em>:</p>
-<pre class="sourceCode Coffeescript"><code>inc = (x) -&gt; 
+<pre class="sourceCode Coffeescript"><code>inc = (x) -&gt;
     if x isnt 6
         x + 1
     else
@@ -268,7 +266,7 @@ all 3    # null
 all 8    # 17</code></pre>
 <p>Other languages like Haskell allow this kind of composition without effort. In JavaScript (or CoffeeScript) we have to work a little more to get it:</p>
 <pre class="sourceCode Coffeescript"><code>None       = null
-MaybeMonad = 
+MaybeMonad =
     mReturn: (value) -&gt;
         if value in [undefined, null, NaN]
             return None
@@ -309,7 +307,7 @@ doMonad = (monad, funcs...) -&gt;
     else
         return [value]</code></pre>
 <p>In this case, <em>mBind</em> doesn’t stops the chained executions, but just flats the returned array received as argument. We can get this:</p>
-<pre class="sourceCode Coffeescript"><code>ListMonad = 
+<pre class="sourceCode Coffeescript"><code>ListMonad =
     mBind: (list, f) -&gt;
         output = list.map f
         return flatten output
@@ -353,7 +351,7 @@ f [&quot;No God! Please no!&quot;]
 	What's wrong with you, JavaScript?
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 27/06/2013
 	</div>
@@ -364,15 +362,15 @@ f [&quot;No God! Please no!&quot;]
 <p>Another weird behaviour is related to the var keyword. If you declare a variable with var, it will belong to the local scope. If you don’t, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).</p>
 <h1 id="syntax">Syntax</h1>
 <p>Event driven code is really common in JavaScript. Usually, if you don’t use promises or some stuffs like <a href="http://noflojs.org/">Flow-Based Programming</a> (FBP), you define a callback that is passed as argument to a function that binds that function to an event, like DOM events in the browser or EventEmitter events in Nodejs. So, when you have a callback that binds another callback to another event that binds another callback to… and enclosed by the module pattern, you will see something like this:</p>
-<pre class="sourceCode Javascript"><code class="sourceCode javascript">(<span class="kw">function</span>() 
+<pre class="sourceCode Javascript"><code class="sourceCode javascript">(<span class="kw">function</span>()
 {
-    <span class="fu">$</span>(<span class="st">&quot;#my-button1&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg1) 
+    <span class="fu">$</span>(<span class="st">&quot;#my-button1&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg1)
     {
         <span class="fu">alert</span>(msg1);
         <span class="fu">$</span>(<span class="st">&quot;#my-button2&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg2)
         {
             <span class="fu">alert</span>(msg2);
-            <span class="fu">$</span>(<span class="st">&quot;#my-button3&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg3) 
+            <span class="fu">$</span>(<span class="st">&quot;#my-button3&quot;</span>).<span class="fu">on</span>(<span class="st">&quot;click&quot;</span>, <span class="kw">function</span>(msg3)
             {
                 <span class="fu">alert</span>(msg3);
             });
@@ -382,9 +380,7 @@ f [&quot;No God! Please no!&quot;]
 <p>I prefer indentation over braces and parenthesis, so the above code looks pretty ugly for me.</p>
 <h1 id="dynamic-typing-and-late-binding">Dynamic typing and late binding</h1>
 <p>Delaying type-checking to runtime is nice for fast-prototyping and data intensive applications (generating types and behaviours based on runtime data). Not so many years ago, JavaScript was used as a toy language to add some animations, form validations and simple stuffs. AJAX changed it all. JavaScript has been growing up since then and nowadays it is used in bigger apps (databases, game engines, communications apps, multimedia apps..) that may have a high cyclomatic complexity. Since JavaScript just checks types and binds names in runtime, a stupid unnoticed error misnaming a variable or a method could slap your face in the worst moment (<em>demo effect</em>).</p>
-<div class="Grid-cell Grid-cell--center u-1of3">
-</div>
-<div class="Grid-cell Grid-cell--center u-1of3">
+<div class="flex-images">
     <img src="http://i.imgur.com/tYrpOT3.gif">
 </div>
 <p>Static typing is not the holy grail, but it is <strong>safer</strong>. Haskell guys, as <a href="https://twitter.com/EleDiaz777">@EleDiaz</a> , know that if Haskell code compiles, it is almost certain that it will work as expected.</p>

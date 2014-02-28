@@ -1,41 +1,46 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" class="row">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 	<head>
-		<link href="../blog/atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog ATOM Feed">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width" />
 		<title>
 			Damián Franco Álvarez's blog - Alternatives to JavaScript (I)
 		</title>
+
+		<meta name="keywords" content="programming languages, javascript, coffeescript, coffee-script, typescript, purescript">
+
+		<link href="../atom.xml" type="application/atom+xml" rel="alternate" title="Damián Franco Álvarez's blog - ATOM Feed">
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+
 		<link rel="stylesheet" type="text/css" href="../css/syntax.css" />
 		<link rel="stylesheet" type="text/css" href="../css/fontfaces.css" />
 		<link rel="stylesheet" type="text/css" href="../css/font-awesome.css" />
-		<link rel="stylesheet" type="text/css" href="../css/grid.css" />
 		<link rel="stylesheet" type="text/css" href="../css/default.css" />
 
 		<script type="text/javascript">
 			var _gaq = _gaq || [];
 			_gaq.push(['_setAccount', 'UA-42041306-1']);
 			_gaq.push(['_trackPageview']);
+			(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'stats.g.doubleclick.net/dc.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+			})();
 		</script>
 
 	</head>
-	<body class="Site">
+	<body class="flex-column">
 		<header>
-			<div class="Grid">
-				<h1 class="Grid-cell u-textCenter">
+				<h1>
 					<a id="home" href="../">Damián Franco Álvarez's blog</a>
 				</h1>
-				
-			</div>
 		</header>
-		<main class="Site-content Container">
+		<main class="flex-cell">
 			<h1 class="article-title">
 	Alternatives to JavaScript (I)
 </h1>
 
-<article class="Grid u-spaceVS">
+<article>
 	<div class="date">
 		Posted on 18/01/2014
 	</div>
@@ -54,7 +59,7 @@
 </blockquote>
 <p>CoffeeScript is just a syntactic sugar layer over JavaScript inspired, mostly, by Python and Ruby. Hence, it’s just another syntax for writting JavaScript code. It avoids some JavaScript pitfalls and adds some features like <em>sort of</em> object-oriented programming via classes, implicit returns, list comprehensions or postfix operators for loops and conditionals.</p>
 <p>Its main advantage is, at the same time, its bigger drawback: it’s just a saner way to write JavaScript code, but it’s JavaScript. Actually, the golden rule of CoffeeScript is <em>It’s just JavaScript</em>.</p>
-<p>It is worth pointing out there a good bunch of CoffeeScript forks and dialects with different goals like <a href="https://github.com/satyr/coco">Coco</a>, that aims to be more radical, or IcedCoffeeScript_, which is a superset of CoffeeScript that adds some keywords to deal with asynchronows control flow.</p>
+<p>It is worth pointing out there a good bunch of CoffeeScript forks and dialects with different goals like <a href="https://github.com/satyr/coco">Coco</a>, that aims to be more radical, or <a href="http://maxtaco.github.io/coffee-script/">IcedCoffeeScript</a>, which is a superset of CoffeeScript that adds some keywords to deal with asynchronows control flow.</p>
 <h2 id="typescript">TypeScript</h2>
 <p><a href="http://www.typescriptlang.org/">TypeScript</a> is a Microsoft project that adds structural typing on top of JavaScript:</p>
 <blockquote>
@@ -79,59 +84,48 @@
 <p>The main problem with PureScript is, contrary to what happens to TypeScript, the absent of wrappers for most common JavaScript libraries. It provides a simple Foreign Function Interface that allows you to write wrappers by yourself. This language is neither popular enought nor supported by a big company. I hope that PureScript will increase its community, so, this problem will be a matter of time.</p>
 </article>
 		</main>
-		</div>
-
-		<div id="comments" class="Grid">
-			<div id="disqus_thread" , class="Site-content Container">
+		<div id="comments">
+			<div id="disqus_thread">
 				<script type="text/javascript">
 					/* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
-					if (/posts/.test(window.location.toString()))
-					{
-						var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
-						 /* * * DON'T EDIT BELOW THIS LINE * * */
-						(function() {
-							var dsq = document.createElement('script');
-							dsq.type = 'text/javascript';
-							dsq.async = true;
-							dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-							(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-						})();
+						if (/posts/.test(window.location.toString()))
+						{
+							document.getElementById("comments").style.display = "block"
+							var disqus_shortname = 'blog-damianfral'; // required: replace example with your forum shortname
+							 /* * * DON'T EDIT BELOW THIS LINE * * */
+							(function() {
+								var dsq = document.createElement('script');
+								dsq.type = 'text/javascript';
+								dsq.async = true;
+								dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+								(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+							})();
 
-						document.getElementById("comments").style.opacity = "1"
-					};
-						
+							document.getElementById("comments").style.opacity = "1"
+						};
+
 				</script>
 			</div>
 		</div>
-		
 
-		<footer>
-			<div class="u-textCenter">
-
-				<div id="contact-links" class="Grid u-textCenter Grid--gutters2x">
-					<a class="Grid-cell" href="https://twitter.com/pamojarpan">
-						<i class="icon-twitter"></i>
-					</a>
-					<a class="Grid-cell" href="https://github.com/damianfral"><i class="icon-github"></i></a>
-					<a class="Grid-cell" href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
-					<a class="Grid-cell" href="http://feeds.feedburner.com/damianfral-blog">
-						<i class="icon-rss"></i>
-					</a>
-						
-				</div>
-				
+		<footer class="flex-row">
+			<div id="social" class="flex-cell">
+				<a href="https://twitter.com/pamojarpan">
+					<i class="icon-twitter"></i>
+				</a>
+				<a href="https://github.com/damianfral"><i class="icon-github"></i></a>
+				<a href="http://www.linkedin.com/profile/view?id=201155207"><i class="icon-linkedin"></i></a>
+				<a href="http://feeds.feedburner.com/damianfral-blog">
+					<i class="icon-rss"></i>
+				</a>
 			</div>
+			<a id="license" class="flex-cell" rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">
+					<img alt="Creative Commons License" style="border-width:0" src="http://mirrors.creativecommons.org/presskit/buttons/80x15/svg/by-sa.svg" />
+				</a>
 		</footer>
 		<script src="../js/custom.modernizr.js"></script>
 		<script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
 
-
-		<script type="text/javascript">  (function() {
-			var ga = document.createElement('script');     ga.type = 'text/javascript'; ga.async = true;
-			ga.src = ('https:'   == document.location.protocol ? 'https://ssl'   : 'http://www') + '.google-analytics.com/ga.js';
-			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-			})();
-	 </script>
 	</body>
 
 </html>
