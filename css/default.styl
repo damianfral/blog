@@ -1,80 +1,111 @@
-@import nib
-html, body
-	width: 100%
-	overflow-x: hidden
-	color: #333
-	font-family: 'Crimson Roman'
+@import 'nib'
+html,body
+	color       : #333
+	font-family : 'Crimson Roman'
+	margin      : 0
+	padding     : 0
+	max-width   : 100%
+	min-height  : 100vh
 
+*
+	box-sizing: border-box
 
-body
-	display: flex
-	min-height: 100%
-	flex-direction: column
+main, #disqus_thread
+	max-width: 50rem
+	margin: 0 auto
 
 header, footer
-	padding: 1vw
-	font-size: 1.7em
-	background-color: #222
+	text-align       : center
+	padding          : 1vw
+	font-size        : 1.7em
+	background-color : #222
+	width            : 100%
 
-header a, footer a
-	color: #D33
-	text-decoration: none
+	a
+		color: #D33
+		text-decoration: none
+
+footer
+	a
+		margin: 8px
+
+#comments
+	background-color : #EEE
+	opacity          : 0
+	border-sizing    : border-box
+	display          : none
+	width            : 100%
+
+.flex-row, .flex-column, .flex-images
+	display         : flex
+	justify-content : space-between
+	align-items     : center
+	align-content   : center
+
+.flex-row
+	flex-direction: row
+
+.flex-column
+	flex-direction: column
+
+.flex-cell
+	flex       : 1 1 auto
+	align-self : center
+
+.flex-images
+	margin  : 0px
+	padding : 0px
+	@extend .flex-row
+	div
+		@extend .flex-cell
+		margin-right  : 8px
+		margin-bottom : 2px
+
+img
+	padding: 0px
+	max-width: 100%
+	border: solid 2px #111
+	margin: 0 auto
 
 header a:hover, header a:focus, footer a:hover, footer a:focus
 	color: #EEE
 	text-decoration: none
 
 a
-	-moz-transition: 0.2s color linear
-	-webkit-transition: 0.2s color linear
-	transition: 0.2s color linear
-	color: #D33
-	text-decoration: none
+	transition      : 0.2s color linear
+	color           : #D33
+	text-decoration : none
 
 a:hover, a:focus
-	color: #333
-	text-decoration: underline
+	color           : #333
+	text-decoration : underline
 
 footer, #comments
-	display: flex
-	-webkit-box-orient: vertical
-	-webkit-box-direction: normal
-	-webkit-flex-direction: column
-	-moz-box-orient: vertical
-	-moz-box-direction: normal
-	-ms-flex-direction: column
-	flex-direction: column
-	-webkit-box-align: center
-	-webkit-align-items: center
-	-moz-box-align: center
-	-ms-flex-align: center
-	align-items: center
-	-webkit-box-pack: justify
-	-webkit-justify-content: space-between
-	-moz-box-pack: justify
-	-ms-flex-pack: justify
-	justify-content: space-between
 	padding: 1.5rem
 	font-size: 2em
 	text-align: center
 
 h1, h2, h3, h4, header
-	font-family: 'League Gothic Regular'
-	font-weight: normal
-	text-transform: uppercase
-	width: 100%
+	font-family    : 'League Gothic Regular'
+	font-weight    : normal
+	text-transform : uppercase
+	width          : 100%
 
+h1, h2, h3, h4
+	margin-bottom: 0px
 
-li
-	list-style: disc
-	margin-left: 1.2em
+ul > li
+	list-style  : disc
+	margin-left : 1.2em
+
+ol > li > a
+	margin-left  : 1em
+	margin-right : 1em
 
 article
-	flex: 1
-
 	h1
-		font-size: 1.7em
-		margin-top: 1.8em
+		font-size  : 1.7em
+		margin-top : 1.8em
 
 	h2
 		margin-top: 1.5em
@@ -86,12 +117,12 @@ article
 		margin-top: 1.1em
 
 	p, li
-		font-size: 1.3em
-		width: 100%
-	
+		font-size : 1.3em
+		width     : 100%
+
 	p > code
-		font-size: 0.9em
-		background-color: #EEE
+		font-size        : 0.9em
+		background-color : #EEE
 
 	code
 		font-size: 1.2em
@@ -100,36 +131,29 @@ article
 	ul, li
 		margin-left: 0
 
-
 .posts
 	font-size: 1.3em
 
-h1, h2, h3, h4
-	margin-bottom: 0px
-
-img, pre
-	position: relative
-	margin-bottom: 1.25em
-	-moz-object-fit: contain
-	border: solid 0.2rem #222
-	width: 100%
+pre
+	position      : relative
+	margin-bottom : 1.25em
+	border        : solid 0.2rem #222
+	width         : 100%
 
 .article-title
-	margin-top: 0px
-	margin-bottom: 0px
 	font-size: 2.5em
 
 .date
-	font-style: italic
-	width: 100%
+	font-style : italic
+	width      : 100%
 
 .footnotes
-	font-size: 0.7em
-	width: 100%
+	font-size : 0.7em
+	width     : 100%
 	hr
-		border-style: dashed
-		border-top-width: 1px
-		border-color: #EEE
+		border-style     : dashed
+		border-top-width : 1px
+		border-color     : #EEE
 
 .posts > li
 	list-style: none
@@ -138,37 +162,46 @@ img, pre
 	overflow-x: auto
 
 .sourceCode.Coffeescript > code
-	color: #333
+	color: #33F3
 
 #wrapper
-	color: #223
-	font-family: 'Crimson Roman'
-	padding: 32px
+	color       : #223
+	font-family : 'Crimson Roman'
+	padding     : 32px
 
 .MathJax
 	font-size: 200% !important
 
 .MathJax_Display
-	width: 100% !important
-	margin: -2em !important
+	width  : 100% !important
+	margin : -2em !important
+
+#social
+	align-content : flex-end
+	flex         : 20 20
+	position     : relative
+	left         : 40px
+
+#license
+	min-width     : 80px
+	font-size     : 0.5em
+	display       : flex
+	flex          : 1 0
+	flex-direction : column
+	align-content : center
+	align-self    : center
+	a
+		margin: 0
 
 pre
-	background-color: #EEE
-	padding: 8px
-	width: 100%
-
-.Container
-	max-width: 50rem
-	margin: 0 auto
-
-#comments
-	background-color: #EEE
-	opacity: 0
+	background-color : #EEE
+	padding          : 8px
+	width            : 100%
 
 blockquote
-	background-color: #EEE
-	margin: 0
-	padding: 1em
-	font-style: italic
+	background-color : #EEE
+	margin           : 0
+	padding          : 1em
+	font-style       : italic
 	p
 		margin: 0em

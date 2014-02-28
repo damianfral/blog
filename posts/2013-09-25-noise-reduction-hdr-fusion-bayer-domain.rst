@@ -1,5 +1,6 @@
 ----
 title:  Noise reduction in images through HDR fusion in the Bayer domain
+tags: hdr, high dynamic range, hdr fusion, high dynamic range fusion, noise, noise reduction, noise measurement, image processing, raw, camera, photography, tonemapping, signal noise ratio, snr
 ----
 
 Introduction
@@ -27,7 +28,7 @@ that will break the uniformity making pixels fluctuate around a value,
 the mean value. So, we can equate average value with noiseless value and
 standard deviation with noise. Hence, we can express signal to noise
 ratio (SNR) this way:
-			
+
 .. math:: SNR(image) = \frac{\mu(image)}{\sigma(image)}
 
 
@@ -35,7 +36,7 @@ We can meassure the SNR for different relative exposures by taking some
 pictures to an uniform zone (using the manual focus to blur the image in
 order to avoid textures) with different exposure times.
 
-.. figure:: /images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/snr.png
+.. figure:: ../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/snr.png
 
 HDR fusion
 ----------
@@ -76,29 +77,28 @@ transitions in the final image.
 
 Extending this process to support more than two images is pretty simple.
 
-.. raw::html
+.. raw:: html
 
-	<div class="Grid Grid--gutters">
-		<div class="Grid-cell u-1of3">
-				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-0EV.jpeg">
+	<div class="flex-row flex-images">
+
+		<div>
+			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-0EV.jpeg">
 		</div>
-		<div class="Grid-cell u-1of3">
-				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-2EV.jpeg">
+		<div>
+			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-2EV.jpeg">
 		</div>
-		<div class="Grid-cell u-1of3">
-				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-4EV.jpeg">
+		<div>
+			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-4EV.jpeg">
 		</div>
 	</div>
 
-	<div class="Grid Grid--gutters">
-
-		<div class="Grid-cell u-1of2">
-				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/map7.jpeg">
+	<div class="flex-row flex-images">
+		<div>
+			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/map7.jpeg">
 		</div>
-		<div class="Grid-cell u-1of2">
-				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-tm.jpeg">
+		<div>
+			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/test7-tm.jpeg">
 		</div>
-
 	 </div>
 
 
@@ -124,16 +124,14 @@ with a high exposure level difference.
 
 .. raw:: html
 
-	<div class="Grid Grid--gutters">
-
-		<div class="Grid-cell u-1of2">
-				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/0EV-detail.jpeg">
+	<div class="flex-row flex-images">
+		<div>
+			<img 	src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/0EV-detail.jpeg">
 		</div>
-		<div class="Grid-cell u-1of2">
-				<img src="/images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
-		</div>
+		<div>
+			<img src="../images/2013-09-25-noise-reduction-hdr-fusion-bayer-domain/hdr-detail.jpeg">
+	 	</div>
 	 </div>
-
 
 Tonemapping
 -----------

@@ -1,5 +1,6 @@
 ----
 title: Simple Monads Example (CoffeeScript)
+tags: javascript, coffeescript, coffee-script, monad, monads, maybe monad, simple monad example, simple monad, functional programming
 ----
 
 This article is based on `Why use monads`_.
@@ -10,7 +11,7 @@ Suppose you have some functions that take a number and answer another number or 
 
 .. code:: Coffeescript
 
-    inc = (x) -> 
+    inc = (x) ->
         if x isnt 6
             x + 1
         else
@@ -77,7 +78,7 @@ Other languages like Haskell allow this kind of composition without effort. In J
 .. code:: Coffeescript
 
     None       = null
-    MaybeMonad = 
+    MaybeMonad =
         mReturn: (value) ->
             if value in [undefined, null, NaN]
                 return None
@@ -88,7 +89,7 @@ Other languages like Haskell allow this kind of composition without effort. In J
             return f value
 
 
-       
+
     doMonad = (monad, funcs...) ->
         (result) ->
             iterator = (i = 0) ->
@@ -124,13 +125,13 @@ The point is doMonad is generic and you can write your own monads to composing f
             return output
         else
             return [value]
-                
+
 
 In this case, *mBind* doesn't stops the chained executions, but just flats the returned array received as argument. We can get this:
 
 .. code:: Coffeescript
 
-    ListMonad = 
+    ListMonad =
         mBind: (list, f) ->
             output = list.map f
             return flatten output
@@ -158,5 +159,3 @@ In this case, *mBind* doesn't stops the chained executions, but just flats the r
     #   'No God! Please no!' ]
 
 .. [#] Copy-pasted sentence.
-
-

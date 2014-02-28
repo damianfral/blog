@@ -1,5 +1,6 @@
 ----
 title: What's wrong with you, JavaScript?
+tags: javascript, javascript problems, javascript object orientation, javascript POO, javascript prototypes, javascript modules, dynamic typing, static typing, weak typing, strong typing, late binding, early binding
 ----
 
 .. We can't escape from JavaScript. It's the language of the web.
@@ -14,7 +15,7 @@ Modules and Var declaration
 ...........................
 
 **JavaScript has no formal construct for namespaces**. Module pattern (passing the namespace as an argument to an anonymous self-invoking function) is really helpful. Lexical scope and closures are nice, which allows the module pattern, but something as important as namespaces must be part of the language, don't you think?
-    
+
 Another weird behaviour is related to the `var` keyword. If you declare a variable with `var`, it will belong to the local scope. If you don't, its scope will be global with overwritting problems and performance penalty (the interpreter will look up the scope chain to find the global variable).
 
 Syntax
@@ -26,15 +27,15 @@ Event driven code is really common in JavaScript. Usually, if you don't use prom
 
 .. code:: Javascript
 
-    (function() 
+    (function()
     {
-        $("#my-button1").on("click", function(msg1) 
+        $("#my-button1").on("click", function(msg1)
         {
             alert(msg1);
             $("#my-button2").on("click", function(msg2)
             {
                 alert(msg2);
-                $("#my-button3").on("click", function(msg3) 
+                $("#my-button3").on("click", function(msg3)
                 {
                     alert(msg3);
                 });
@@ -52,12 +53,10 @@ Delaying type-checking to runtime is nice for fast-prototyping and data intensiv
 
 .. raw::  html
 
-        <div class="Grid-cell Grid-cell--center u-1of3">
-        </div>
-        <div class="Grid-cell Grid-cell--center u-1of3">
+        <div class="flex-images">
             <img src="http://i.imgur.com/tYrpOT3.gif">
         </div>
-    
+
 
 Static typing is not the holy grail, but it is **safer**. Haskell guys, as `@EleDiaz`_ , know that if Haskell code compiles, it is almost certain that it will work as expected.
 
@@ -66,7 +65,7 @@ Static typing is not the holy grail, but it is **safer**. Haskell guys, as `@Ele
 And some web applications need performance. Doing some tasks in the compilation time (AOT), can give us, for example, a higher FPS value in our game.
 
 
-Weak typing 
+Weak typing
 ...........
 
 Coercion plus dynamic typing results on a ***debugging hell***. Many JavaScript programmers, I guess, have noticed that debugging JavaScript code is not easy. Many errors are hidden by implicit conversions. It might speed up development (in my opinion, it's just true in the case of small apps; bigger applications require safety), but it slows down debugging by a higher factor.
@@ -87,7 +86,7 @@ JavaScript is a joker. Let's see:
     "A" >= -Infinity // false
     "A" < -Infinity  // false
 
-Despite of the fact that ES 6 has some new proposals to minify or solve these and other *problems*, there is another path to avoid them: use another programming language that targets JavaScript. 
+Despite of the fact that ES 6 has some new proposals to minify or solve these and other *problems*, there is another path to avoid them: use another programming language that targets JavaScript.
 
 There are some new languages that try to hide the bad parts adding a syntax sugar layer keeping the JavaScript semantics. Other languages have a completely new syntax and semantics. And there is another option, compilers for *old* languages that generate JavaScript code.
 
@@ -175,7 +174,7 @@ There are some new languages that try to hide the bad parts adding a syntax suga
 ..  showInt = ffi "%1+''"
 
 .. Ohhh, it is beautiful, but how i can translate to javascript? Very easy:
-    
+
 .. .. code:: Shell
 
 ..  $ fay fib.hs

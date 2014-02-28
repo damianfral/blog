@@ -1,5 +1,6 @@
 ----
 title:  A command-line todo list manager written in Haskell
+tags: todo list manager, haskell, cli tool
 ----
 
 th

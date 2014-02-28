@@ -1,5 +1,6 @@
 ---
 title: Alternatives to JavaScript (I)
+tags: programming languages, javascript, coffeescript, coffee-script, typescript, purescript
 ---
 
 JavaScript is the most ubiquitous computing runtime in the world. Web browsers are, by far, the most common host environments for JavaScript, probably followed by server platforms (see `Node.js`_). But JavaScript engines are embedded in many other tools; from microcontrollers, like Espruino, to graphical shells like GNOME Shell; from PDF documents to graphic editing programs, like Adobe Photoshop.
@@ -71,6 +72,7 @@ The main problem with PureScript is, contrary to what happens to TypeScript, the
 
 .. _`Node.js`: http://nodejs.org/
 .. _CoffeeScript: http://coffeescript.org/
+.. _IcedCoffeeScript: http://maxtaco.github.io/coffee-script/
 .. _Coco: https://github.com/satyr/coco
 .. _Quobis: https://twitter.com/Quobis
 .. _`Jeremy Ashkenas`: https://twitter.com/jashkenas
