@@ -1,7 +1,7 @@
-----
+---
 title:  Noise reduction in images through HDR fusion in the Bayer domain
 tags: hdr, high dynamic range, hdr fusion, high dynamic range fusion, noise, noise reduction, noise measurement, image processing, raw, camera, photography, tonemapping, signal noise ratio, snr
-----
+---
 
 Introduction
 ------------
