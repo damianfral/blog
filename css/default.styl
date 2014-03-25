@@ -1,33 +1,40 @@
 @import 'nib'
-html,body
+
+*
+	box-sizing: border-box !important
+
+html, body
 	color       : #333
 	font-family : 'Crimson Roman'
 	margin      : 0
 	padding     : 0
-	max-width   : 100%
+	width       : 100%
 	min-height  : 100vh
 
-*
-	box-sizing: border-box
-
 main, #disqus_thread
-	max-width: 50rem
-	margin: 0 auto
+	max-width : 50rem
+	margin    : 0 auto
+	padding   : 1em
 
 header, footer
 	text-align       : center
-	padding          : 1vw
-	font-size        : 1.7em
+	padding          : 0em
+	font-size        : 1.5em
+
 	background-color : #222
 	width            : 100%
 
+	h1
+		padding : 16px
+		margin  : 0
 	a
-		color: #D33
-		text-decoration: none
+		margin          : 8px
+		color           : #D33
+		text-decoration : none
 
-footer
-	a
-		margin: 8px
+@media (max-width: 480px)
+	header, footer
+		font-size: 1em
 
 #comments
 	background-color : #EEE
@@ -53,19 +60,19 @@ footer
 	align-self : center
 
 .flex-images
+	@extend .flex-row
 	margin  : 0px
 	padding : 0px
-	@extend .flex-row
 	div
 		@extend .flex-cell
 		margin-right  : 8px
 		margin-bottom : 2px
 
 img
-	padding: 0px
-	max-width: 100%
-	border: solid 2px #111
-	margin: 0 auto
+	padding   : 0px
+	max-width : 100%
+	border    : solid 2px #111
+	margin    : 0 auto
 
 header a:hover, header a:focus, footer a:hover, footer a:focus
 	color: #EEE
@@ -80,7 +87,7 @@ a:hover, a:focus
 	color           : #333
 	text-decoration : underline
 
-footer, #comments
+#comments
 	padding: 1.5rem
 	font-size: 2em
 	text-align: center
@@ -91,16 +98,15 @@ h1, h2, h3, h4, header
 	text-transform : uppercase
 	width          : 100%
 
-h1, h2, h3, h4
-	margin-bottom: 0px
+article
+	h1, h2, h3, h4
+		margin-bottom: 0px
 
 ul > li
 	list-style  : disc
-	margin-left : 1.2em
-
-ol > li > a
-	margin-left  : 1em
-	margin-right : 1em
+	margin-left : 0em
+	position    : relative
+	left        : -1em
 
 article
 	h1
@@ -118,7 +124,6 @@ article
 
 	p, li
 		font-size : 1.3em
-		width     : 100%
 
 	p > code
 		font-size        : 0.9em
@@ -127,7 +132,6 @@ article
 	code
 		font-size: 1.2em
 
-
 	ul, li
 		margin-left: 0
 
@@ -135,13 +139,14 @@ article
 	font-size: 1.3em
 
 pre
-	position      : relative
-	margin-bottom : 1.25em
-	border        : solid 0.2rem #222
-	width         : 100%
+	background-color : #EEE
+	padding          : 8px
+	position         : relative
+	margin-bottom    : 1.25em
+	border           : solid 0.2rem #222
 
 .article-title
-	font-size: 2.5em
+	font-size : 2.5em
 
 .date
 	font-style : italic
@@ -174,29 +179,25 @@ pre
 
 .MathJax_Display
 	width  : 100% !important
-	margin : -2em !important
+	margin : -0.5em !important
 
 #social
 	align-content : flex-end
-	flex         : 20 20
-	position     : relative
-	left         : 40px
+	flex          : 20 20
+	position      : relative
+	left          : 40px
+	padding       : 16px
 
 #license
-	min-width     : 80px
-	font-size     : 0.5em
-	display       : flex
-	flex          : 1 0
+	min-width      : 80px
+	font-size      : 0.5em
+	display        : flex
+	flex           : 1 0
 	flex-direction : column
-	align-content : center
-	align-self    : center
+	align-content  : center
+	align-self     : center
 	a
 		margin: 0
-
-pre
-	background-color : #EEE
-	padding          : 8px
-	width            : 100%
 
 blockquote
 	background-color : #EEE
