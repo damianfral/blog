@@ -1,37 +1,47 @@
+* {
+  -webkit-box-sizing: border-box !important;
+  -moz-box-sizing: border-box !important;
+  box-sizing: border-box !important;
+}
 html,
 body {
   color: #333;
   font-family: 'Crimson Roman';
   margin: 0;
   padding: 0;
-  max-width: 100%;
+  width: 100%;
   min-height: 100vh;
-}
-* {
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
 }
 main,
 #disqus_thread {
   max-width: 50rem;
   margin: 0 auto;
+  padding: 1em;
 }
 header,
 footer {
   text-align: center;
-  padding: 1vw;
-  font-size: 1.7em;
+  padding: 0em;
+  font-size: 1.5em;
   background-color: #222;
   width: 100%;
 }
+header h1,
+footer h1 {
+  padding: 16px;
+  margin: 0;
+}
 header a,
 footer a {
+  margin: 8px;
   color: #d33;
   text-decoration: none;
 }
-footer a {
-  margin: 8px;
+@media (max-width: 480px) {
+  header,
+  footer {
+    font-size: 1em;
+  }
 }
 #comments {
   background-color: #eee;
@@ -132,7 +142,6 @@ a:focus {
   color: #333;
   text-decoration: underline;
 }
-footer,
 #comments {
   padding: 1.5rem;
   font-size: 2em;
@@ -148,19 +157,17 @@ header {
   text-transform: uppercase;
   width: 100%;
 }
-h1,
-h2,
-h3,
-h4 {
+article h1,
+article h2,
+article h3,
+article h4 {
   margin-bottom: 0px;
 }
 ul > li {
   list-style: disc;
-  margin-left: 1.2em;
-}
-ol > li > a {
-  margin-left: 1em;
-  margin-right: 1em;
+  margin-left: 0em;
+  position: relative;
+  left: -1em;
 }
 article h1 {
   font-size: 1.7em;
@@ -178,7 +185,6 @@ article h4 {
 article p,
 article li {
   font-size: 1.3em;
-  width: 100%;
 }
 article p > code {
   font-size: 0.9em;
@@ -195,10 +201,11 @@ article li {
   font-size: 1.3em;
 }
 pre {
+  background-color: #eee;
+  padding: 8px;
   position: relative;
   margin-bottom: 1.25em;
   border: solid 0.2rem #222;
-  width: 100%;
 }
 .article-title {
   font-size: 2.5em;
@@ -223,7 +230,7 @@ pre {
   overflow-x: auto;
 }
 .sourceCode.Coffeescript > code {
-  color: rgba(51,51,255,0.2);
+  color: #333;
 }
 #wrapper {
   color: #223;
@@ -235,7 +242,7 @@ pre {
 }
 .MathJax_Display {
   width: 100% !important;
-  margin: -2em !important;
+  margin: -0.5em !important;
 }
 #social {
   -ms-flex-line-pack: end;
@@ -250,6 +257,7 @@ pre {
   flex: 20 20;
   position: relative;
   left: 40px;
+  padding: 16px;
 }
 #license {
   min-width: 80px;
@@ -280,13 +288,8 @@ pre {
   align-self: center;
   -ms-flex-item-align: center;
 }
-a {
+#license a {
   margin: 0;
-}
-pre {
-  background-color: #eee;
-  padding: 8px;
-  width: 100%;
 }
 blockquote {
   background-color: #eee;
